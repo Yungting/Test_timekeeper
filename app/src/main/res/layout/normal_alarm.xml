@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".normal_alarm"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
+
+        <View
+            android:layout_width="42dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/gray" />
+
+        <View
+            android:layout_width="4dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/normal_line" />
+
+        <View
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:background="#FFFFFF" />
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/gray" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="161dp"
+        android:background="@drawable/normal_titlebar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/normal_edit_title"
+            android:layout_width="296dp"
+            android:layout_height="40dp"
+            android:layout_margin="10dp"
+            android:hint="Title"
+            android:textColorLink="@android:color/holo_blue_bright"
+            android:theme="@style/HoloTheme"/>
+
+        <TextView
+            android:id="@+id/alarm_number"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:text="18 : 00"
+            android:textAlignment="center"
+            android:textSize="36sp" />
+
+
+        <LinearLayout
+            android:id="@+id/repeat_layout"
+            android:layout_width="match_parent"
+            android:layout_height="47dp"
+            android:layout_marginTop="100dp"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/repeat_checkbox"
+                android:layout_width="33dp"
+                android:layout_height="33dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="20dp"
+                android:layout_marginLeft="27dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginStart="27dp"
+                android:background="@drawable/normal_checkbox"
+                android:button="@null" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/repeat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/repeat"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/repeat_show"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="55dp"
+                    android:layout_marginStart="55dp"
+                    android:layout_weight="1"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/repeat_day"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <CheckBox
+                android:id="@+id/su"
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                android:layout_gravity="center"
+                android:background="@drawable/normal_repeat_btn"
+                android:button="@null"
+                android:text="@string/Su"
+                android:textAlignment="center"
+                android:textColor="@drawable/normal_repeat_text" />
+
+            <CheckBox
+                android:id="@+id/m"
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/normal_repeat_btn"
+                android:button="@null"
+                android:text="@string/M"
+                android:textAlignment="center"
+                android:textColor="@drawable/normal_repeat_text" />
+
+            <CheckBox
+                android:id="@+id/T"
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/normal_repeat_btn"
+                android:button="@null"
+                android:text="@string/T"
+                android:textAlignment="center"
+                android:textColor="@drawable/normal_repeat_text" />
+
+            <CheckBox
+                android:id="@+id/W"
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/normal_repeat_btn"
+                android:button="@null"
+                android:text="@string/W"
+                android:textAlignment="center"
+                android:textColor="@drawable/normal_repeat_text" />
+
+            <CheckBox
+                android:id="@+id/Th"
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/normal_repeat_btn"
+                android:button="@null"
+                android:text="@string/Th"
+                android:textAlignment="center"
+                android:textColor="@drawable/normal_repeat_text" />
+
+            <CheckBox
+                android:id="@+id/F"
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/normal_repeat_btn"
+                android:button="@null"
+                android:text="@string/F"
+                android:textAlignment="center"
+                android:textColor="@drawable/normal_repeat_text" />
+
+            <CheckBox
+                android:id="@+id/S"
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/normal_repeat_btn"
+                android:button="@null"
+                android:text="@string/S"
+                android:textAlignment="center"
+                android:textColor="@drawable/normal_repeat_text" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="47dp"
+            android:layout_marginTop="50dp"
+            android:orientation="horizontal">
+
+
+            <CheckBox
+                android:id="@+id/rington_checkbox"
+                android:layout_width="33dp"
+                android:layout_height="33dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="20dp"
+                android:layout_marginLeft="27dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginStart="27dp"
+                android:background="@drawable/normal_check_btn"
+                android:button="@null" />
+
+            <LinearLayout
+                android:id="@+id/rington"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/rington"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/rington_show"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="55dp"
+                    android:layout_marginStart="55dp"
+                    android:layout_weight="1"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    android:text="@string/rington_show"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
+                android:id="@+id/creat_btn"
+                android:layout_width="165dp"
+                android:layout_height="47dp"
+                android:layout_marginBottom="40dp"
+                android:layout_gravity="center|bottom"
+                android:background="@drawable/normal_btn"
+                android:elevation="2dp"
+                android:text="CREATE"
+                android:textSize="14sp" />
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

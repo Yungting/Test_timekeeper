@@ -1,0 +1,40 @@
+<resources>
+    <string name="app_name">Time Keeper</string>
+    <string name="repeat">重複星期</string>
+    <string name="repeat_show">M T W Th F</string>
+    <string name="rington">鈴聲</string>
+    <string name="rington_show">May Day - first day</string>
+    <string name="music">音樂</string>
+    <string name="textview">TextView</string>
+    <string name="normal">一般鬧鐘</string>
+    <string name="ai_alarm">AI Alarm</string>
+    <string name="counter">Counter</string>
+    <string name="friends">FRIENDS</string>
+    <string name="QRcode_scanner">QR code Scanner</string>
+    <string name="sign_up"><u>註冊</u></string>
+    <string name="login"><u>登入</u></string>
+    <string name="forgot_pwd"><u>Forgot my password</u></string>
+    <string name="forget_chatbox">Please do not forget your password again : )</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="set_up">SET UP</string>
+    <string name="friend_req">Friend Request</string>
+    <string name="friend_ser">Friend Search</string>
+    <string name="cancel">CANCEL</string>
+    <string name="email">信箱</string>
+    <string name="pwd">密碼</string>
+    <string name="uname">使用者名稱</string>
+    <string name="creat">完成</string>
+    <string name="apply">套用</string>
+    <string name="Su">日</string>
+    <string name="M">一</string>
+    <string name="T">二</string>
+    <string name="W">三</string>
+    <string name="Th">四</string>
+    <string name="F">五</string>
+    <string name="S">六</string>
+    <string name="about_us">A B O U T</string>
+    <string name="find_bug">請大家多多幫我們找bug，歡迎回報</string>
+
+</resources>

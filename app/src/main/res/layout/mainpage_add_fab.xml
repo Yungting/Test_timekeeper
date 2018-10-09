@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <LinearLayout
+        android:id="@+id/normal_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center|bottom"
+        android:layout_marginBottom="40dp"
+        android:layout_marginRight="70dp"
+        android:visibility="gone">
+
+        <ImageButton
+            android:id="@+id/normal_btn"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:background="@drawable/mainpage_normal_alarm"/>
+
+        <TextView
+            android:id="@+id/normal_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/normal"
+            android:layout_gravity="center"
+            android:textAlignment="center"
+            android:textSize="12sp"
+            android:textColor="@color/text" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ai_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center|bottom"
+        android:layout_marginBottom="90dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/ai_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/ai_alarm"
+            android:textAlignment="center"
+            android:textColor="@color/text"
+            android:textSize="12sp" />
+
+        <ImageButton
+            android:id="@+id/ai_btn"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="3dp"
+            android:background="@drawable/mainpage_ai_alarm"
+            android:layout_gravity="center" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/counter_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center|bottom"
+        android:layout_marginBottom="40dp"
+        android:layout_marginLeft="70dp"
+        android:visibility="gone">
+
+        <ImageButton
+            android:id="@+id/counter_btn"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:background="@drawable/mainpage_counter"/>
+
+        <TextView
+            android:id="@+id/counter_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/counter"
+            android:layout_gravity="center"
+            android:textSize="12sp"
+            android:textColor="@color/text" />
+    </LinearLayout>
+
+</FrameLayout>
