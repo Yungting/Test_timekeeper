@@ -21,12 +21,12 @@
         <activity android:name=".mainpage">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".normal_alarmalert"
+            android:excludeFromRecents="true"
             android:label="ai_alarmalert" />
         <activity android:name=".normal_alarm" />
         <activity android:name=".normal_alarm_music" />
@@ -34,7 +34,12 @@
         <activity android:name=".sign_up" />
         <activity android:name=".ai_count" />
         <activity android:name=".check" />
-        <activity android:name=".about"/>
+        <activity android:name=".about" />
+
+        <service
+            android:name=".AlertService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>
