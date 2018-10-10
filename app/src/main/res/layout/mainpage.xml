@@ -4,19 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".mainpage"
-    android:background="@color/white">
+    android:background="@color/white"
+    tools:context=".mainpage">
 
     <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:backgroundTint="@android:color/white"/>
+        android:backgroundTint="@android:color/white" />
 
     <View
         android:id="@+id/view"
         android:layout_width="match_parent"
         android:layout_height="124dp"
-        android:background="@drawable/timekeeper_titlebar"/>
+        android:background="@drawable/timekeeper_titlebar" />
 
     <Button
         android:id="@+id/menu"
@@ -33,7 +33,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/view"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="10dp" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -46,10 +46,11 @@
             android:layout_height="55dp"
             android:layout_gravity="center|bottom"
             android:layout_marginBottom="17dp"
-            android:src="@drawable/mainpage_add_btn"
+            android:backgroundTint="@android:color/transparent"
             android:scaleType="centerCrop"
-            android:backgroundTint="@android:color/transparent"/>
-        <include layout="@layout/mainpage_add_fab"/>
+            android:src="@drawable/mainpage_add_btn" />
+
+        <include layout="@layout/mainpage_add_fab" />
 
         <cdflynn.android.library.crossview.CrossView
             android:id="@+id/cross_view"
@@ -57,9 +58,124 @@
             android:layout_height="50dp"
             android:layout_gravity="center|bottom"
             android:layout_marginBottom="21dp"
+            android:backgroundTint="@color/white"
             android:padding="14dp"
-            app:lineColor="@android:color/white"
-            android:backgroundTint="@color/white"/>
+            app:lineColor="@android:color/white" />
     </FrameLayout>
+
+    <ImageButton
+        android:id="@+id/qus"
+        android:layout_width="38dp"
+        android:layout_height="38dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/qus_btn"
+        android:scaleType="centerInside"
+        android:src="@drawable/question" />
+
+    <RelativeLayout
+        android:layout_width="300dp"
+        android:layout_height="400dp"
+        android:layout_centerInParent="true">
+
+
+        <LinearLayout
+            android:id="@+id/qus_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/help"
+            android:orientation="vertical"
+            android:padding="15dp"
+            android:elevation="10dp"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:src="@drawable/ai_open" />
+
+                <TextView
+                    android:id="@+id/textView1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:gravity="center_vertical"
+                    android:text="TextView" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:gravity="center_vertical"
+                    android:layout_marginRight="15dp"
+                    android:text="TextView" />
+
+                <ImageView
+                    android:layout_width="70dp"
+                    android:layout_height="80dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/pic2" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="70dp"
+                    android:layout_height="80dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/pic1" />
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:gravity="center_vertical"
+                    android:text="TextView" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <ImageView
+                android:layout_width="150dp"
+                android:layout_height="95dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/pic" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
 
 </RelativeLayout>

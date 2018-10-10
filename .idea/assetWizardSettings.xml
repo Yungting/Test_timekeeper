@@ -62,8 +62,11 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="mail_btn" />
-                            <entry key="sourceFile" value="C:\Users\USER\Downloads\mail.svg" />
+                            <entry key="height" value="512" />
+                            <entry key="outputName" value="question" />
+                            <entry key="overrideSize" value="true" />
+                            <entry key="sourceFile" value="C:\Users\USER\Desktop\question.svg" />
+                            <entry key="width" value="384" />
                           </map>
                         </option>
                       </PersistentState>

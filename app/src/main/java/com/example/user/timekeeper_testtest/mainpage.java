@@ -16,6 +16,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -44,9 +45,11 @@ public class mainpage extends Activity implements RecyclerTouchListener.Recycler
     public static final String KEY = "com.example.user.myapplication.app";
     public static boolean logon = false;
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
-    ImageButton add_btn, normal_btn, ai_btn, counter_btn;
+    ImageButton add_btn, normal_btn, ai_btn, counter_btn,qus;
     LinearLayout normal_layout, ai_layout, counter_layout;
     CrossView crossView;
+    LinearLayout qus_view;
+    TextView textView1,textView2,textView3;
 
     // hamburger
     Button menu;
@@ -86,6 +89,23 @@ public class mainpage extends Activity implements RecyclerTouchListener.Recycler
         counter_btn = findViewById(R.id.counter_btn);
         counter_layout = findViewById(R.id.counter_layout);
         crossView = findViewById(R.id.cross_view);
+        qus = findViewById(R.id.qus);
+        qus_view =findViewById(R.id.qus_view);
+
+        textView1 = findViewById(R.id.textView1);
+        textView1.setText("當鬧鐘響後\n" +
+                "我會記錄你的使用行為\n" +
+                "用於之後的AI訓練");
+
+        textView2 = findViewById(R.id.textView2);
+        textView2.setText("起床後請到「設定醒/睡著」\n" +
+                "讓我知道你剛剛是醒著還是睡著喔！\n" +
+                "這樣我才能學習呦");
+
+        textView3 = findViewById(R.id.textView3);
+        textView3.setText("當跳出頁面後就無法修改囉！！\n");
+
+
 
         // 選單彈跳
         menu = findViewById(R.id.menu);
@@ -139,6 +159,18 @@ public class mainpage extends Activity implements RecyclerTouchListener.Recycler
             public void onClick(View view) {
                 Intent intent1 = new Intent(mainpage.this, normal_alarm.class);
                 startActivity(intent1);
+            }
+        });
+
+
+        qus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(qus_view.getVisibility() == View.GONE){
+                    qus_view.setVisibility(View.VISIBLE);
+                }else{
+                    qus_view.setVisibility(View.GONE);
+                }
             }
         });
 
@@ -257,6 +289,10 @@ public class mainpage extends Activity implements RecyclerTouchListener.Recycler
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         if (touchListener != null) touchListener.getTouchCoordinates(ev);
+        if (qus_view.getVisibility()== View.VISIBLE) {
+            qus_view.setVisibility(View.GONE);
+        }
+
         return super.dispatchTouchEvent(ev);
     }
 
@@ -483,5 +519,17 @@ public class mainpage extends Activity implements RecyclerTouchListener.Recycler
             return false;
         }
     }
+
+
+    // 按返回鍵取消delete狀態
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+                finish();
+        }
+        return false;
+    }
+
+
 
 }
