@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -42,58 +43,66 @@ public class sign_up extends AppCompatActivity {
                 final String u_id = user_mail.getText().toString();
                 String u_pwd = check_pwd.getText().toString();
                 String u_name = user_name.getText().toString();
-                if(!android.util.Patterns.EMAIL_ADDRESS.matcher(u_id).matches()){
-                    new AlertDialog.Builder(sign_up.this).setTitle("輸入錯誤").setMessage("帳號請填E-mail喔~~")
+                if(TextUtils.isEmpty(user_pwd.getText())||TextUtils.isEmpty(user_mail.getText())||TextUtils.isEmpty(check_pwd.getText())||TextUtils.isEmpty(user_name.getText())){
+                    Log.d("測試","安安"+TextUtils.isEmpty(user_pwd.getText()));
+                    new AlertDialog.Builder(sign_up.this).setTitle("輸入錯誤").setMessage("有欄位還沒填寫喔!")
                             .setNegativeButton("OK",null)
                             .show();
-                }else {
-                    if (user_pwd.getText().toString().equals(check_pwd.getText().toString())) {
+                }else{
+                    if(!android.util.Patterns.EMAIL_ADDRESS.matcher(u_id).matches()){
+                        new AlertDialog.Builder(sign_up.this).setTitle("輸入錯誤").setMessage("帳號請填E-mail喔~~")
+                                .setNegativeButton("OK",null)
+                                .show();
+                    }else {
+                        if (user_pwd.getText().toString().equals(check_pwd.getText().toString())) {
 
-                        Thread get_data = new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                db_select.connect("select_sql", "SELECT user_id,u_password,u_name FROM `user` WHERE user_id ='" + u_id + "'");
-                                Log.d("連線", "安安SELECT user_id,u_password,u_name FROM `user` WHERE user_id ='" + u_id + "'");
+                            Thread get_data = new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    db_select.connect("select_sql", "SELECT user_id,u_password,u_name FROM `user` WHERE user_id ='" + u_id + "'");
+                                    Log.d("連線", "安安SELECT user_id,u_password,u_name FROM `user` WHERE user_id ='" + u_id + "'");
+                                }
+                            });
+                            get_data.start();
+                            try {
+                                Thread.sleep(400);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
                             }
-                        });
-                        get_data.start();
-                        try {
-                            Thread.sleep(400);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        Log.d("連線", "安安" +db_select.get_data);
-                        String db_u_id = null;
-                        try{
-                            get_result = new JSONArray(db_select.get_data);
-                            int lenght = get_result.length();
-                            for(int i = 0;i < lenght;i++){
-                                JSONObject jsonObject = get_result.getJSONObject(i);
-                                db_u_id = jsonObject.getString("user_id");
+                            Log.d("連線", "安安" +db_select.get_data);
+                            String db_u_id = null;
+                            try{
+                                get_result = new JSONArray(db_select.get_data);
+                                int lenght = get_result.length();
+                                for(int i = 0;i < lenght;i++){
+                                    JSONObject jsonObject = get_result.getJSONObject(i);
+                                    db_u_id = jsonObject.getString("user_id");
+                                }
                             }
-                        }
-                        catch(JSONException e) {
-                            e.printStackTrace();
-                        }
-                        if (db_u_id != null) {
-                            new AlertDialog.Builder(sign_up.this).setTitle("輸入錯誤").setMessage("已有人註冊此帳號")
+                            catch(JSONException e) {
+                                e.printStackTrace();
+                            }
+                            if (db_u_id != null) {
+                                new AlertDialog.Builder(sign_up.this).setTitle("輸入錯誤").setMessage("已有人註冊此帳號")
+                                        .setNegativeButton("OK", null)
+                                        .show();
+                            } else {
+                                Log.d("測試","安安"+user_pwd.getText().toString());
+                                db_insert.connect("insert_sql", "INSERT INTO `user` (`user_id`, `u_name`, `u_password`) VALUES('" + u_id + "', '" + u_name + "', '" + u_pwd + "');");
+                                new AlertDialog.Builder(sign_up.this).setTitle("註冊成功").setMessage("快去登入吧!!")
+                                        .setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                finish();
+                                            }
+                                        })
+                                        .show();
+                            }
+                        } else {
+                            new AlertDialog.Builder(sign_up.this).setTitle("輸入錯誤").setMessage("兩組密碼不一樣")
                                     .setNegativeButton("OK", null)
                                     .show();
-                        } else {
-                            db_insert.connect("insert_sql", "INSERT INTO `user` (`user_id`, `u_name`, `u_password`) VALUES('" + u_id + "', '" + u_name + "', '" + u_pwd + "');");
-                            new AlertDialog.Builder(sign_up.this).setTitle("註冊成功").setMessage("快去登入吧!!")
-                                    .setNegativeButton("OK", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            finish();
-                                        }
-                                    })
-                                    .show();
                         }
-                    } else {
-                        new AlertDialog.Builder(sign_up.this).setTitle("輸入錯誤").setMessage("兩組密碼不一樣")
-                                .setNegativeButton("OK", null)
-                                .show();
                     }
                 }
             }

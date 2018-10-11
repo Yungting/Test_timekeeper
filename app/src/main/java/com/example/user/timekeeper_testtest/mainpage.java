@@ -51,7 +51,8 @@ public class mainpage extends Activity implements RecyclerTouchListener.Recycler
     CrossView crossView;
     LinearLayout qus_view;
     TextView textView1,textView2,textView3;
-    int[] itemlist = new int[50];
+    List<Integer> itemlist = new ArrayList<>();
+    DB_usage db;
 
     // hamburger
     Button menu;
@@ -80,6 +81,7 @@ public class mainpage extends Activity implements RecyclerTouchListener.Recycler
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.mainpage);
+        checkusage();
 
         add_btn = findViewById(R.id.add_btn);
         ai_btn = findViewById(R.id.ai_btn);
@@ -105,14 +107,12 @@ public class mainpage extends Activity implements RecyclerTouchListener.Recycler
         textView3 = findViewById(R.id.textView3);
         textView3.setText("當跳出頁面後就無法修改囉！！\n");
 
-
-
         // 選單彈跳
         menu = findViewById(R.id.menu);
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(popupWindow==null){
+                if(popupWindow == null){
                     showPopupWindow();
                 }else if(popupWindow.isShowing()){
                     popupWindow.dismiss();
@@ -279,7 +279,8 @@ public class mainpage extends Activity implements RecyclerTouchListener.Recycler
                             , cursor.getString(5), time, cursor.getString(7), cursor.getInt(8)));
                     requestcode[i] = cursor.getInt(3);
                     alarmtype[i] = cursor.getString(7);
-                    itemlist[i] = i;
+                    itemlist.add(i, i);
+                    Log.d("add",":"+itemlist.get(i));
                     i++;
                 }
             }
@@ -325,7 +326,13 @@ public class mainpage extends Activity implements RecyclerTouchListener.Recycler
             holder.delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    removeData(itemlist[position]);
+                    DB_normal_alarm db = new DB_normal_alarm(mainpage.this);
+                    AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                    Intent intent = new Intent(mainpage.this, normal_alarmalert.class);
+                    PendingIntent pi = PendingIntent.getActivity(mainpage.this, requestcode[position], intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    alarmManager.cancel(pi);
+                    db.delete(requestcode[position]);
+                    removeData(itemlist.get(position));
                 }
             });
 
@@ -334,21 +341,12 @@ public class mainpage extends Activity implements RecyclerTouchListener.Recycler
 
         //刪除鬧鐘
         public void removeData(int position) {
-            Log.d("pois",":"+position);
-            Log.d("size",":"+modelList.size());
             modelList.remove(position);
-            Log.d("pois",":"+position);
-            Log.d("size",":"+modelList.size());
+
             //删除动画
             notifyItemRemoved(position);
-            DB_normal_alarm db = new DB_normal_alarm(mainpage.this);
-            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-            Intent intent = new Intent(mainpage.this, normal_alarmalert.class);
-            PendingIntent pi = PendingIntent.getActivity(mainpage.this, requestcode[position], intent, PendingIntent.FLAG_UPDATE_CURRENT);
-            alarmManager.cancel(pi);
-            db.delete(requestcode[position]);
-            for (int a = position; itemlist.length >= a; a++){
-                itemlist[position] = position - 1;
+            for (int a = position+1; (itemlist.size()) > a; a++){
+                itemlist.set(a, itemlist.get(a)-1);
             }
         }
 
@@ -425,6 +423,8 @@ public class mainpage extends Activity implements RecyclerTouchListener.Recycler
                                         AlarmManager alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
                                         Intent intent1 = new Intent(mainpage.this, normal_alarmalert.class);
                                         intent1.putExtra("requestcode", requestcode);
+                                        Intent service = new Intent(mainpage.this, BootService.class);
+                                        startService(service);
                                         PendingIntent pi1 = PendingIntent.getActivity(mainpage.this, requestcode, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
                                         if (ifrepeat) {
                                             Log.d("case", ":repear");
@@ -536,6 +536,21 @@ public class mainpage extends Activity implements RecyclerTouchListener.Recycler
                 finish();
         }
         return false;
+    }
+
+    public void checkusage(){
+        db = new DB_usage(this);
+        if (db != null) {
+            Cursor cursor = db.select();
+            if (cursor.getCount() > 0) {
+                for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+                    if (cursor.getString(3) == null) {
+                        Intent pageintent = new Intent(this, check.class);
+                        startActivity(pageintent);
+                    }
+                }
+            }
+        }
     }
 
 
