@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.example.user.timekeeper_testtest.R;
+import com.example.user.timekeeper_testtest.mainpage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -143,7 +144,7 @@ public class guide_page extends Activity implements View.OnClickListener{
 
     private void enterMainActivity() {
         Intent intent = new Intent(guide_page.this,
-                mainpage_splash.class);
+                mainpage.class);
         startActivity(intent);
         SpUtils.putBoolean(guide_page.this, AppConstants.FIRST_OPEN, true);
         finish();

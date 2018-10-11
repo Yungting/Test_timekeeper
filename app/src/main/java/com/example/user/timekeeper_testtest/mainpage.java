@@ -32,6 +32,7 @@ import android.widget.TextView;
 
 import com.nikhilpanju.recyclerviewenhanced.OnActivityTouchListener;
 import com.nikhilpanju.recyclerviewenhanced.RecyclerTouchListener;
+import com.example.user.timekeeper_testtest.guide.guide_page;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -167,11 +168,9 @@ public class mainpage extends Activity implements RecyclerTouchListener.Recycler
         qus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(qus_view.getVisibility() == View.GONE){
-                    qus_view.setVisibility(View.VISIBLE);
-                }else{
-                    qus_view.setVisibility(View.GONE);
-                }
+                Intent intent = new Intent(mainpage.this, guide_page.class);
+                startActivity(intent);
+                finish();
             }
         });
 

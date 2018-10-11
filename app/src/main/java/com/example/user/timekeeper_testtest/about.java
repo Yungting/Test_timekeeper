@@ -2,16 +2,27 @@ package com.example.user.timekeeper_testtest;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 public class about extends AppCompatActivity {
 
     TextView about_content;
+    View timekeeper_logo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.about);
+
+        //回首頁
+        timekeeper_logo = findViewById(R.id.timekeeper_logo);
+        timekeeper_logo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         about_content = findViewById(R.id.about_content);
         about_content.setText(

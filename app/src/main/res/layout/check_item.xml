@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:elevation="2dp">
 
     <LinearLayout
+        android:id="@+id/view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp">
 
         <LinearLayout
-            android:layout_width="87dp"
-            android:layout_height="51dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical">
 
@@ -23,38 +27,71 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="請問您在"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
+                    android:text="9月10日"
+                    android:textSize="16sp" />
+
+                <TextView
                     android:id="@+id/date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="20180928" />
+                    android:layout_marginLeft="4dp"
+                    android:text="12:01"
+                    android:textSize="16sp" />
             </LinearLayout>
 
             <TextView
-                android:id="@+id/time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="TextView" />
+                android:text="的鬧鐘響後1分鐘內"
+                android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/showtext"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="wake" />
+                android:layout_weight="1"
+                android:text="有起床嗎？"
+                android:textSize="16sp" />
 
         </LinearLayout>
 
         <Button
-            android:id="@+id/btn_sleep"
-            android:layout_width="wrap_content"
+            android:id="@+id/btn_wake"
+            android:layout_width="60dp"
             android:layout_height="wrap_content"
-            android:text="睡著" />
+            android:text="有" />
+
+        <View
+            android:layout_width="10dp"
+            android:layout_height="10dp"/>
 
         <Button
-            android:id="@+id/btn_wake"
-            android:layout_width="wrap_content"
+            android:id="@+id/btn_sleep"
+            android:layout_width="60dp"
             android:layout_height="wrap_content"
-            android:text="醒著" />
+            android:text="沒有" />
+
     </LinearLayout>
 
-</FrameLayout>
+    <TextView
+        android:layout_marginTop="5dp"
+        android:id="@+id/showtext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/view"
+        android:gravity="center"
+        android:text="wake"
+        android:textSize="18dp"
+        android:textColor="@color/about"/>
+
+</RelativeLayout>

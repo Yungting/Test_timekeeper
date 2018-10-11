@@ -75,12 +75,6 @@
         android:scaleType="centerInside"
         android:src="@drawable/question" />
 
-    <RelativeLayout
-        android:layout_width="300dp"
-        android:layout_height="400dp"
-        android:layout_centerInParent="true">
-
-
         <LinearLayout
             android:id="@+id/qus_view"
             android:layout_width="match_parent"
@@ -176,6 +170,3 @@
         </LinearLayout>
 
     </RelativeLayout>
-
-
-</RelativeLayout>
