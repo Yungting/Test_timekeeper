@@ -17,6 +17,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.user.timekeeper_testtest.guide.mainpage_splash;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -100,10 +102,12 @@ public class login extends AppCompatActivity {
 
                         SharedPreferences pref = getApplication().getSharedPreferences(KEY, Context.MODE_PRIVATE);
                         pref.edit().clear();
+//                        pref.edit().putString("u_id", db_u_id).putString("u_pwd", db_u_pwd).putString("state","first").commit();
                         pref.edit().putString("u_id", db_u_id).putString("u_pwd", db_u_pwd).commit();
 
-                        Intent intent = new Intent(login.this, mainpage.class);
+                        Intent intent = new Intent(login.this, mainpage_splash.class);
                         startActivity(intent);
+                        finish();
                     } else {
                         new AlertDialog.Builder(login.this).setTitle("請再試試看").setMessage("帳號或密碼錯誤!!")
                                 .setNegativeButton("OK", null)
