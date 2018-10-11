@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#7A7A7A">
+
+    <LinearLayout
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="30dp"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/yellow"
+            android:layout_marginBottom="30dp"
+            android:layout_gravity="center"
+            android:textSize="20sp"
+            android:text="修改鬧鐘"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:layout_marginBottom="5dp"
+            android:layout_gravity="left"
+            android:textSize="16sp"
+            android:text="1.  修改鬧鐘：點選鬧鐘空白處"/>
+
+        <ImageView
+            android:layout_width="264dp"
+            android:layout_height="74dp"
+            android:layout_gravity="center"
+            android:src="@drawable/view3_1"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="5dp"
+            android:layout_gravity="left"
+            android:textSize="16sp"
+            android:text="2.  關閉鬧鐘：點選鬧鐘 , 暗掉表示關閉"/>
+
+        <ImageView
+            android:layout_width="272dp"
+            android:layout_height="65dp"
+            android:layout_gravity="center"
+            android:src="@drawable/view3_2"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_marginTop="15dp"
+            android:text="3.  刪除鬧鐘：按住空白處往左滑"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:layout_marginBottom="5dp"
+            android:layout_gravity="left"
+            android:textSize="16sp"
+            android:text="即出現刪按鈕 , 點擊刪除鈕即可"/>
+
+        <ImageView
+            android:layout_width="273dp"
+            android:layout_height="167dp"
+            android:layout_gravity="center"
+            android:src="@drawable/view3_3"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+</FrameLayout>

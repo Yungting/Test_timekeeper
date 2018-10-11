@@ -59,8 +59,6 @@ public class mainpage extends Activity implements RecyclerTouchListener.Recycler
     FrameLayout menu_window;
     TextView set_up, friend, check, about;
 
-
-
     public class BuildDev {
         public static final int RECORD_AUDIO = 0;
     }
@@ -126,6 +124,8 @@ public class mainpage extends Activity implements RecyclerTouchListener.Recycler
 
         String user = getSharedPreferences(KEY, MODE_PRIVATE).getString("u_id", null);
         String pwd = getSharedPreferences(KEY, MODE_PRIVATE).getString("u_pwd", null);
+
+
         Log.d("測試","暫存"+user+"/"+pwd);
         if (user == null || pwd == null) {
             Intent intent = new Intent(this, login.class);

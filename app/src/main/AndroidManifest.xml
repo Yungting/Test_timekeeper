@@ -32,10 +32,14 @@
             android:label="ai_alarmalert" />
         <activity android:name=".normal_alarm" />
         <activity android:name=".normal_alarm_music" />
-        <activity android:name=".login" />
+        <activity android:name=".login" >
+        </activity>
         <activity android:name=".sign_up" />
         <activity android:name=".check" />
         <activity android:name=".about" />
+        <activity android:name=".guide.guide_page"/>
+        <activity android:name=".guide.mainpage_splash">
+        </activity>
 
         <receiver android:name=".Reciver">
             <intent-filter>
@@ -51,6 +55,8 @@
             android:name=".BootService"
             android:enabled="true"
             android:exported="true"/>
+
+
     </application>
 
 </manifest>
