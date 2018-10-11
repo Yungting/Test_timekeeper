@@ -258,25 +258,25 @@ public class normal_alarm extends Activity {
         Intent intent = new Intent(this, normal_alarmalert.class);
         intent.putExtra("requestcode", requestcode);
         if (repeat_checkbox.isChecked() && !repeat_text.equals("")){
-            PendingIntent pi = PendingIntent.getActivity(this, requestcode, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-            if (System.currentTimeMillis() > calendar2.getTimeInMillis()){
-                Log.d("case",":settmr");
-                am2.setRepeating(AlarmManager.RTC_WAKEUP, calendar2.getTimeInMillis()+24*60*60*1000, 24*60*60*1000, pi);
-            }else{
-                Log.d("case",":settoday");
-                am2.setRepeating(AlarmManager.RTC_WAKEUP, calendar2.getTimeInMillis(), 24*60*60*1000, pi);
-            }
-            Log.d("sest",":set");
+//            PendingIntent pi = PendingIntent.getActivity(this, requestcode, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+//            if (System.currentTimeMillis() > calendar2.getTimeInMillis()){
+//                Log.d("case",":settmr");
+//                am2.setRepeating(AlarmManager.RTC_WAKEUP, calendar2.getTimeInMillis()+24*60*60*1000, 24*60*60*1000, pi);
+//            }else{
+//                Log.d("case",":settoday");
+//                am2.setRepeating(AlarmManager.RTC_WAKEUP, calendar2.getTimeInMillis(), 24*60*60*1000, pi);
+//            }
+//            Log.d("sest",":set");
             ifrepeat = true;
         }else {
-            PendingIntent pi = PendingIntent.getActivity(this, requestcode, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-            if (System.currentTimeMillis() > calendar2.getTimeInMillis()){
-                Log.d("case",":settmr");
-                am2.setExact(AlarmManager.RTC_WAKEUP, calendar2.getTimeInMillis()+24*60*60*1000, pi);
-            }else{
-                Log.d("case",":settoday");
-                am2.setExact(AlarmManager.RTC_WAKEUP, calendar2.getTimeInMillis(), pi);
-            }
+//            PendingIntent pi = PendingIntent.getActivity(this, requestcode, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+//            if (System.currentTimeMillis() > calendar2.getTimeInMillis()){
+//                Log.d("case",":settmr");
+//                am2.setExact(AlarmManager.RTC_WAKEUP, calendar2.getTimeInMillis()+24*60*60*1000, pi);
+//            }else{
+//                Log.d("case",":settoday");
+//                am2.setExact(AlarmManager.RTC_WAKEUP, calendar2.getTimeInMillis(), pi);
+//            }
             ifrepeat = false;
         }
 
@@ -284,6 +284,8 @@ public class normal_alarm extends Activity {
         String millis = String.valueOf(calendar2.getTimeInMillis());
         db.insert(repeat_text, audioFilePath, index, requestcode, ifrepeat, edit_text, millis,"normal",1);
         db.close();
+        Intent service = new Intent(this, BootService.class);
+        startService(service);
         Intent mIntent = new Intent(this, mainpage.class);
         mIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(mIntent);
@@ -298,25 +300,25 @@ public class normal_alarm extends Activity {
         Intent intent = new Intent(this, normal_alarmalert.class);
         intent.putExtra("requestcode", requestcode);
         if (repeat_checkbox.isChecked() && !repeat_text.equals("")){
-            PendingIntent pi = PendingIntent.getActivity(this, requestcode, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-            if (System.currentTimeMillis() > calendar2.getTimeInMillis()){
-                Log.d("case",":settmr");
-                am2.setRepeating(AlarmManager.RTC_WAKEUP, calendar2.getTimeInMillis()+24*60*60*1000, 24*60*60*1000, pi);
-            }else{
-                Log.d("case",":settoday");
-                am2.setRepeating(AlarmManager.RTC_WAKEUP, calendar2.getTimeInMillis(), 24*60*60*1000, pi);
-            }
-            Log.d("sest",":set");
+//            PendingIntent pi = PendingIntent.getActivity(this, requestcode, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+//            if (System.currentTimeMillis() > calendar2.getTimeInMillis()){
+//                Log.d("case",":settmr");
+//                am2.setRepeating(AlarmManager.RTC_WAKEUP, calendar2.getTimeInMillis()+24*60*60*1000, 24*60*60*1000, pi);
+//            }else{
+//                Log.d("case",":settoday");
+//                am2.setRepeating(AlarmManager.RTC_WAKEUP, calendar2.getTimeInMillis(), 24*60*60*1000, pi);
+//            }
+//            Log.d("sest",":set");
             ifrepeat = true;
         }else {
-            PendingIntent pi = PendingIntent.getActivity(this, requestcode, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-            if (System.currentTimeMillis() > calendar2.getTimeInMillis()){
-                Log.d("case",":settmr");
-                am2.setExact(AlarmManager.RTC_WAKEUP, calendar2.getTimeInMillis()+24*60*60*1000, pi);
-            }else{
-                Log.d("case",":settoday");
-                am2.setExact(AlarmManager.RTC_WAKEUP, calendar2.getTimeInMillis(), pi);
-            }
+//            PendingIntent pi = PendingIntent.getActivity(this, requestcode, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+//            if (System.currentTimeMillis() > calendar2.getTimeInMillis()){
+//                Log.d("case",":settmr");
+//                am2.setExact(AlarmManager.RTC_WAKEUP, calendar2.getTimeInMillis()+24*60*60*1000, pi);
+//            }else{
+//                Log.d("case",":settoday");
+//                am2.setExact(AlarmManager.RTC_WAKEUP, calendar2.getTimeInMillis(), pi);
+//            }
             ifrepeat = false;
         }
 
@@ -324,6 +326,8 @@ public class normal_alarm extends Activity {
         String millis = String.valueOf(calendar2.getTimeInMillis());
         db.updateall(requestcode, repeat_text, audioFilePath, index, ifrepeat, edit_text, millis,"normal",1);
         db.close();
+        Intent service = new Intent(this, BootService.class);
+        startService(service);
         Intent mIntent = new Intent(this, mainpage.class);
         mIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(mIntent);
