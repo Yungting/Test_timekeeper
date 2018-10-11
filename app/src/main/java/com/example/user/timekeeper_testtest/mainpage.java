@@ -50,6 +50,7 @@ public class mainpage extends Activity implements RecyclerTouchListener.Recycler
     CrossView crossView;
     LinearLayout qus_view;
     TextView textView1,textView2,textView3;
+    int[] itemlist = new int[50];
 
     // hamburger
     Button menu;
@@ -251,7 +252,7 @@ public class mainpage extends Activity implements RecyclerTouchListener.Recycler
     }
 
     private List<mainpage_RowModel> getData() {
-        List<mainpage_RowModel> list = new ArrayList<>(25);
+        List<mainpage_RowModel> list = new ArrayList<>(30);
         DB_normal_alarm db = new DB_normal_alarm(this);
 
         //cursor
@@ -279,6 +280,7 @@ public class mainpage extends Activity implements RecyclerTouchListener.Recycler
                             , cursor.getString(5), time, cursor.getString(7), cursor.getInt(8)));
                     requestcode[i] = cursor.getInt(3);
                     alarmtype[i] = cursor.getString(7);
+                    itemlist[i] = i;
                     i++;
                 }
             }
@@ -324,7 +326,7 @@ public class mainpage extends Activity implements RecyclerTouchListener.Recycler
             holder.delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    removeData(position);
+                    removeData(itemlist[position]);
                 }
             });
 
@@ -333,7 +335,11 @@ public class mainpage extends Activity implements RecyclerTouchListener.Recycler
 
         //刪除鬧鐘
         public void removeData(int position) {
+            Log.d("pois",":"+position);
+            Log.d("size",":"+modelList.size());
             modelList.remove(position);
+            Log.d("pois",":"+position);
+            Log.d("size",":"+modelList.size());
             //删除动画
             notifyItemRemoved(position);
             DB_normal_alarm db = new DB_normal_alarm(mainpage.this);
@@ -342,6 +348,9 @@ public class mainpage extends Activity implements RecyclerTouchListener.Recycler
             PendingIntent pi = PendingIntent.getActivity(mainpage.this, requestcode[position], intent, PendingIntent.FLAG_UPDATE_CURRENT);
             alarmManager.cancel(pi);
             db.delete(requestcode[position]);
+            for (int a = position; itemlist.length >= a; a++){
+                itemlist[position] = position - 1;
+            }
         }
 
         @Override
