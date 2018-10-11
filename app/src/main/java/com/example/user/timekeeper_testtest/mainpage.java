@@ -51,6 +51,7 @@ public class mainpage extends Activity implements RecyclerTouchListener.Recycler
     LinearLayout qus_view;
     TextView textView1,textView2,textView3;
     List<Integer> itemlist = new ArrayList<>();
+    DB_usage db;
 
     // hamburger
     Button menu;
@@ -79,6 +80,7 @@ public class mainpage extends Activity implements RecyclerTouchListener.Recycler
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.mainpage);
+        checkusage();
 
         add_btn = findViewById(R.id.add_btn);
         ai_btn = findViewById(R.id.ai_btn);
@@ -104,14 +106,12 @@ public class mainpage extends Activity implements RecyclerTouchListener.Recycler
         textView3 = findViewById(R.id.textView3);
         textView3.setText("當跳出頁面後就無法修改囉！！\n");
 
-
-
         // 選單彈跳
         menu = findViewById(R.id.menu);
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(popupWindow==null){
+                if(popupWindow == null){
                     showPopupWindow();
                 }else if(popupWindow.isShowing()){
                     popupWindow.dismiss();
@@ -537,6 +537,21 @@ public class mainpage extends Activity implements RecyclerTouchListener.Recycler
                 finish();
         }
         return false;
+    }
+
+    public void checkusage(){
+        db = new DB_usage(this);
+        if (db != null) {
+            Cursor cursor = db.select();
+            if (cursor.getCount() > 0) {
+                for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+                    if (cursor.getString(3) == null) {
+                        Intent pageintent = new Intent(this, check.class);
+                        startActivity(pageintent);
+                    }
+                }
+            }
+        }
     }
 
 
