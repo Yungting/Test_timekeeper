@@ -62,7 +62,7 @@ public class BootService extends Service {
                 }
             }
         }
-
+        db.close();
         return super.onStartCommand(intent, flags, startId);
     }
 

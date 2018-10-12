@@ -49,6 +49,7 @@ public class normal_alarmalert extends AppCompatActivity {
         win.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
 
         detectrepeat(requestcode, cursor);
+        db.close();
     }
 
     @Override
