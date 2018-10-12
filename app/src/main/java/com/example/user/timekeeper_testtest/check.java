@@ -82,12 +82,13 @@ public class check extends AppCompatActivity {
                         dbdate.add(cursor.getString(1));
                     }
                 }
-            }else{
-                nothing_text.setVisibility(View.VISIBLE);
-                nothing_text.setText("您還沒設置過鬧鐘\n" +
-                        "或是您已經都點擊完畢了!\n" +
-                        "所以目前沒有資訊喔！");
             }
+        }
+        if (myDateset.size() == 0 && myTimeset.size() == 0){
+            nothing_text.setVisibility(View.VISIBLE);
+            nothing_text.setText("您還沒設置過鬧鐘\n" +
+                        "或是您已經都點擊完畢了~\n" +
+                        "所以目前沒有資訊喔！");
         }
 
         mAdapter = new MyAdapter(myDateset, myTimeset);
@@ -151,7 +152,7 @@ public class check extends AppCompatActivity {
                     String sql_u = "UPDATE `screen_record` SET `r_ifawake`="
                             + true + " WHERE `User_id`='" + u_id + "' AND `Date`='" + dbdate.get(position) + "'";
                     connecting.connect("insert_sql", sql_u);
-                    showtext.setText("成功叫醒");
+                    showtext.setText("成功叫醒，感謝您的確認!!");
                 }
             });
 
@@ -162,7 +163,7 @@ public class check extends AppCompatActivity {
                     String sql_u = "UPDATE `screen_record` SET `r_ifawake`="
                             + false + " WHERE `User_id`='" + u_id + "' AND `Date`='" + dbdate.get(position) + "'";
                     connecting.connect("insert_sql", sql_u);
-                    showtext.setText("沒有叫醒");
+                    showtext.setText("沒有叫醒，感謝您的確認!!");
                 }
             });
 

@@ -24,6 +24,7 @@ public class ai_count{
     public static long stop_record_time;
     long time, stopuse, usetime, totaltime;
     int min, hr, sec;
+    static int data_length;
     static String state;
     static double volume;
     private StringBuilder sb;
@@ -89,6 +90,7 @@ public class ai_count{
         sql_u_tmp = new String();
         u_id = new String();
         connecting = new Connect_To_Server();
+        data_length = 1;
 
         u_id = record.getSharedPreferences(KEY,MODE_PRIVATE).getString("u_id",null);
 
@@ -164,8 +166,10 @@ public class ai_count{
         Thread thread_check_time = new Thread(new Runnable() {
             @Override
             public void run() {
-                while(System.currentTimeMillis() <= stop_record_time){
-                    if(System.currentTimeMillis() == stop_record_time){
+                while(data_length <= 122){
+                    if(data_length == 122){
+//                while(System.currentTimeMillis() <= stop_record_time){
+//                    if(System.currentTimeMillis() == stop_record_time){
                         axis_recorder.start_record(sensorManager,false);//九軸停止紀錄(但現在我註解掉了)
                         sound_recorder.stopRecord();//停止錄音
                         for(int i = 0;i<id.size();i++){
@@ -176,6 +180,7 @@ public class ai_count{
                         }
                         Log.d("紀錄", "結束");
                         Log.d("TAG", "九軸&分貝資料上傳");
+                        data_length++;
                     }
                 }
                 Cursor update_cursor = dbSoundaxis.select_update();
@@ -267,11 +272,18 @@ public class ai_count{
     public void startListenAudio() {
         final int Base = 1;
         Thread thread_sound = new Thread(new Runnable() {
+<<<<<<< HEAD
             int count = 0;
             @Override
             public void run() {
                 while (count < 121) {
                 //while (System.currentTimeMillis() <= stop_record_time) {
+=======
+            @Override
+            public void run() {
+                while (data_length<=121) {
+                    //while (System.currentTimeMillis() <= stop_record_time) {
+>>>>>>> 959a8a97e6ea2e4c27e2fb9136d0b6086db0f9d9
                     try {
                         if (sound_recorder.mMediaRecorder != null) {
                             volume = sound_recorder.mMediaRecorder.getMaxAmplitude() / Base;  //獲取聲壓值
@@ -287,12 +299,16 @@ public class ai_count{
                                 volume = 20 * Math.log10(volume);//將聲壓值轉為分貝值
                             }
                             sound_db.add(String.format("%.02f",volume));
+<<<<<<< HEAD
                             Log.d("執行續",(count+1)+" data");
+=======
+                            Log.d("執行續",data_length+" data");
+>>>>>>> 959a8a97e6ea2e4c27e2fb9136d0b6086db0f9d9
                             Log.d("執行續",volume+"分貝");
                             Log.d("執行續",axis_recorder.x+"X軸");
                             Log.d("執行續",axis_recorder.y+"Y軸");
                             Log.d("執行續",axis_recorder.z+"Z軸");
-                            count++;
+                            data_length++;
                         }
                         Thread.sleep(500);
                     } catch (InterruptedException e) {
@@ -317,4 +333,3 @@ public class ai_count{
         }
     }
 }
-
