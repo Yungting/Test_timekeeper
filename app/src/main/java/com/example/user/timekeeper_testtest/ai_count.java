@@ -94,7 +94,7 @@ public class ai_count{
         time = cd.getTimeInMillis();
         Log.d("tag", "get"+time);
 
-        getScreen();
+        getScreen(time);
         start_time = System.currentTimeMillis();
         stop_record_time = start_time+ 60*1000;//結束時間設為一分鐘後
         Log.d("state", "s"+state);
@@ -118,16 +118,26 @@ public class ai_count{
         Log.d("totla",":"+tt/1000);
     }
 
-    public void getScreen(){
+    public void getScreen(Long t){
         PowerManager pm = (PowerManager)record.getSystemService(Context.POWER_SERVICE);
         boolean isScreenOn = pm.isInteractive();
-        if (isScreenOn == true){
-            state = "true";
-        }else if (isScreenOn == false){
+        Calendar fivemin = Calendar.getInstance();
+        fivemin.setTimeInMillis(System.currentTimeMillis());
+        Long five = fivemin.getTimeInMillis();
+        Calendar fivmin2 = Calendar.getInstance();
+        fivmin2.setTimeInMillis(t+300000);
+        Long five2 = fivmin2.getTimeInMillis();
+        if (five < five2){
+            if (isScreenOn == true){
+                state = "true";
+            }else if (isScreenOn == false){
+                state = "false";
+            }
+        }else {
             state = "false";
         }
-
     }
+
     public void start_listen_nine_axis(){
         Thread start = new Thread((new Runnable() {
             @Override
@@ -181,7 +191,7 @@ public class ai_count{
             @Override
             public void run() {
                 while(state == "true"){
-                    getScreen();
+                    getScreen(time);
                     Log.d("執行續", "檢查螢幕狀態");
                     try {
                         Thread.sleep(500);

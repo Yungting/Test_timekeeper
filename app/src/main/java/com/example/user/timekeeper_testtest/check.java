@@ -1,5 +1,6 @@
 package com.example.user.timekeeper_testtest;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -44,6 +45,9 @@ public class check extends AppCompatActivity {
         timekeeper_logo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                db.close();
+                Intent main = new Intent(check.this, mainpage.class);
+                startActivity(main);
                 finish();
             }
         });

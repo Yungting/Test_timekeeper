@@ -285,6 +285,7 @@ public class mainpage extends Activity implements RecyclerTouchListener.Recycler
                 }
             }
         }
+        db.close();
         return list;
     }
 
@@ -333,6 +334,7 @@ public class mainpage extends Activity implements RecyclerTouchListener.Recycler
                     alarmManager.cancel(pi);
                     db.delete(requestcode[position]);
                     removeData(itemlist.get(position));
+                    db.close();
                 }
             });
 
@@ -411,6 +413,7 @@ public class mainpage extends Activity implements RecyclerTouchListener.Recycler
                                     Intent intent = new Intent(mainpage.this, normal_alarmalert.class);
                                     PendingIntent pi = PendingIntent.getActivity(mainpage.this, requestcode, intent, PendingIntent.FLAG_UPDATE_CURRENT);
                                     alarmManager.cancel(pi);
+                                    db.close();
                                     break;
 
                                 case 0:
@@ -439,6 +442,7 @@ public class mainpage extends Activity implements RecyclerTouchListener.Recycler
                                             }
                                         }
                                     }
+                                    db.close();
                                     break;
                             }
                         }
@@ -547,10 +551,13 @@ public class mainpage extends Activity implements RecyclerTouchListener.Recycler
                     if (cursor.getString(3) == null) {
                         Intent pageintent = new Intent(this, check.class);
                         startActivity(pageintent);
+                        db.close();
+                        finish();
                     }
                 }
             }
         }
+        db.close();
     }
 
 

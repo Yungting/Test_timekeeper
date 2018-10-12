@@ -7,6 +7,8 @@ import android.os.IBinder;
 import android.util.Log;
 
 public class AlertService extends Service {
+    private DB_usage dbUsage;
+    private DB_soundaxis dbSoundaxis;
 
     public AlertService() {
 
@@ -30,6 +32,10 @@ public class AlertService extends Service {
         Log.d("service","!!!!");
         ai_count data_record = new ai_count();
         data_record.record(this);
+        dbSoundaxis = new DB_soundaxis(this);
+        dbUsage = new DB_usage(this);
+        dbSoundaxis.close();
+        dbUsage.close();
 
         return super.onStartCommand(intent, flags, startId);
     }
