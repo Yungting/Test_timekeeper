@@ -267,10 +267,10 @@ public class ai_count{
     public void startListenAudio() {
         final int Base = 1;
         Thread thread_sound = new Thread(new Runnable() {
-            int count =1;
+            int count = 0;
             @Override
             public void run() {
-                while (count<=120) {
+                while (count < 121) {
                 //while (System.currentTimeMillis() <= stop_record_time) {
                     try {
                         if (sound_recorder.mMediaRecorder != null) {
@@ -287,7 +287,7 @@ public class ai_count{
                                 volume = 20 * Math.log10(volume);//將聲壓值轉為分貝值
                             }
                             sound_db.add(String.format("%.02f",volume));
-                            Log.d("執行續",count+" data");
+                            Log.d("執行續",(count+1)+" data");
                             Log.d("執行續",volume+"分貝");
                             Log.d("執行續",axis_recorder.x+"X軸");
                             Log.d("執行續",axis_recorder.y+"Y軸");
@@ -299,6 +299,7 @@ public class ai_count{
                         e.printStackTrace();
                     }
                 }
+
             }
         });
         thread_sound.start();
