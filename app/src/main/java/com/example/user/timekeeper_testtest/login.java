@@ -17,7 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.user.timekeeper_testtest.guide.mainpage_splash;
+import com.example.user.timekeeper_testtest.guide.guide_page;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -105,7 +105,7 @@ public class login extends AppCompatActivity {
 //                        pref.edit().putString("u_id", db_u_id).putString("u_pwd", db_u_pwd).putString("state","first").commit();
                         pref.edit().putString("u_id", db_u_id).putString("u_pwd", db_u_pwd).commit();
 
-                        Intent intent = new Intent(login.this, mainpage_splash.class);
+                        Intent intent = new Intent(login.this, guide_page.class);
                         startActivity(intent);
                         finish();
                     } else {
