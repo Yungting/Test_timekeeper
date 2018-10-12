@@ -127,8 +127,8 @@ public class normal_alarmalert extends AppCompatActivity {
             public void run(){
                 try {
                     alarm();
-                    finish();
                     mp.stop();
+                    System.exit(0);
                 }catch(Exception e) {
                     e.printStackTrace();
                 }
