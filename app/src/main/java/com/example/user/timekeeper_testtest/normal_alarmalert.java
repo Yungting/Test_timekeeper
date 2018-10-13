@@ -3,9 +3,11 @@ package com.example.user.timekeeper_testtest;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -27,6 +29,7 @@ public class normal_alarmalert extends AppCompatActivity {
     String musicpath;
     Handler h = new Handler();
     AlertDialog dialog;
+    private MyReceiver receiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +47,11 @@ public class normal_alarmalert extends AppCompatActivity {
             musicpath = cursor.getString(1);
         }
 
+        receiver = new MyReceiver();
+        IntentFilter homeFilter = new IntentFilter(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
+
+        registerReceiver(receiver, homeFilter);
+
         Window win = getWindow();
         win.addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD | WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
         win.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
@@ -54,6 +62,7 @@ public class normal_alarmalert extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
+        unregisterReceiver(receiver);
         super.onDestroy();
         if (mp!=null){
             if (mp.isPlaying()){
@@ -99,16 +108,11 @@ public class normal_alarmalert extends AppCompatActivity {
                 finish();
             }
         });
-        builder.setOnKeyListener(new DialogInterface.OnKeyListener() {
-            @Override
-            public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-                // Prevent dialog close on back press button
-                return keyCode == KeyEvent.KEYCODE_BACK;
-            }
-        });
+
         dialog = builder.show();
         builder.show();
-
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false);
     }
 
     private void alarm(){
@@ -194,4 +198,42 @@ public class normal_alarmalert extends AppCompatActivity {
             }
         }
     }
+
+    private class MyReceiver extends BroadcastReceiver {
+
+        private final String SYSTEM_DIALOG_REASON_KEY = "reason";
+        private final String SYSTEM_DIALOG_REASON_HOME_KEY = "homekey";
+        private final String SYSTEM_DIALOG_REASON_RECENT_APPS = "recentapps";
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (action.equals(Intent.ACTION_CLOSE_SYSTEM_DIALOGS)) {
+                String reason = intent.getStringExtra(SYSTEM_DIALOG_REASON_KEY);
+
+                if (reason == null)
+                    return;
+
+                // Home键
+                if (reason.equals(SYSTEM_DIALOG_REASON_HOME_KEY)) {
+                    Toast.makeText(getApplicationContext(), "關閉鬧鐘", Toast.LENGTH_SHORT).show();
+                    mp.stop();
+                    h.removeCallbacksAndMessages(null);
+                    Calendar cd = Calendar.getInstance();
+                    cd.setTimeInMillis(System.currentTimeMillis());
+                    long time = cd.getTimeInMillis();
+                    //Intent intent1 = new Intent(normal_alarmalert.this, ai_count.class);
+                    Log.d("alert", "time"+time);
+                    send();
+                    finish();
+                }
+
+                // 最近任务列表键
+                if (reason.equals(SYSTEM_DIALOG_REASON_RECENT_APPS)) {
+
+                }
+            }
+        }
+    }
+
 }

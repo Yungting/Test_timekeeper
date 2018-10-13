@@ -48,14 +48,15 @@ public class BootService extends Service {
                             Long t = Long.parseLong(cursor.getString(6));
                             cal.setTimeInMillis(t);
                             Boolean ifrepeat = Boolean.parseBoolean(cursor.getString(4));
+                            int status = cursor.getInt(8);
                             AlarmManager alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
                             Intent intent1 = new Intent(BootService.this, normal_alarmalert.class);
                             intent1.putExtra("requestcode", cursor.getInt(3));
                             PendingIntent pi1 = PendingIntent.getActivity(BootService.this, cursor.getInt(3), intent1, PendingIntent.FLAG_UPDATE_CURRENT);
-                            if (ifrepeat) {
+                            if (ifrepeat && status == 1) {
                                 Log.d("case", ":repear");
                                 alarm.setRepeating(AlarmManager.RTC_WAKEUP, Long.parseLong(cursor.getString(6)), 24 * 60 * 60 * 1000, pi1);
-                            } else {
+                            } else if (!ifrepeat && status == 1){
                                 if (System.currentTimeMillis() > Long.parseLong(cursor.getString(6))) {
                                     Log.d("case", ":settmr");
                                     alarm.setExact(AlarmManager.RTC_WAKEUP, Long.parseLong(cursor.getString(6)) + 24 * 60 * 60 * 1000, pi1);

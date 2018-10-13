@@ -137,11 +137,6 @@ public class mainpage extends Activity implements RecyclerTouchListener.Recycler
         if (!isAccessGranted()) {
             startActivity(new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS));
         }
-//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.PACKAGE_USAGE_STATS)
-//                != PackageManager.PERMISSION_GRANTED) {
-//
-//            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.PACKAGE_USAGE_STATS},BuildDev.RECORD_AUDIO);
-//        }
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -413,6 +408,7 @@ public class mainpage extends Activity implements RecyclerTouchListener.Recycler
                                     Intent intent = new Intent(mainpage.this, normal_alarmalert.class);
                                     PendingIntent pi = PendingIntent.getActivity(mainpage.this, requestcode, intent, PendingIntent.FLAG_UPDATE_CURRENT);
                                     alarmManager.cancel(pi);
+                                    Log.d("cancel","!");
                                     db.close();
                                     break;
 
