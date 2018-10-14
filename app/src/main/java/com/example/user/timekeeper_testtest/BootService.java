@@ -6,6 +6,7 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
@@ -53,18 +54,34 @@ public class BootService extends Service {
                             Intent intent1 = new Intent(BootService.this, normal_alarmalert.class);
                             intent1.putExtra("requestcode", cursor.getInt(3));
                             PendingIntent pi1 = PendingIntent.getActivity(BootService.this, cursor.getInt(3), intent1, PendingIntent.FLAG_UPDATE_CURRENT);
-                            if (ifrepeat && status == 1) {
-                                Log.d("case", ":repear");
-                                alarm.setRepeating(AlarmManager.RTC_WAKEUP, Long.parseLong(cursor.getString(6)), 24 * 60 * 60 * 1000, pi1);
-                            } else if (!ifrepeat && status == 1){
-                                if (System.currentTimeMillis() > Long.parseLong(cursor.getString(6))) {
-                                    Log.d("case", ":settmr");
-                                    alarm.setExact(AlarmManager.RTC_WAKEUP, Long.parseLong(cursor.getString(6)) + 24 * 60 * 60 * 1000, pi1);
-                                } else {
-                                    Log.d("case", ":settoday");
-                                    alarm.setExact(AlarmManager.RTC_WAKEUP, Long.parseLong(cursor.getString(6)), pi1);
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                if (ifrepeat && status == 1) {
+                                    Log.d("case", ":repear");
+                                    alarm.setRepeating(AlarmManager.RTC_WAKEUP, Long.parseLong(cursor.getString(6)), 24 * 60 * 60 * 1000, pi1);
+                                } else if (!ifrepeat && status == 1){
+                                    if (System.currentTimeMillis() > Long.parseLong(cursor.getString(6))) {
+                                        Log.d("case", ":settmr");
+                                        alarm.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, Long.parseLong(cursor.getString(6)) + 24 * 60 * 60 * 1000, pi1);
+                                    } else {
+                                        Log.d("case", ":settoday");
+                                        alarm.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, Long.parseLong(cursor.getString(6)), pi1);
+                                    }
+                                }
+                            } else if (Build.VERSION.SDK_INT >=  Build.VERSION_CODES.KITKAT) {
+                                if (ifrepeat && status == 1) {
+                                    Log.d("case", ":repear");
+                                    alarm.setRepeating(AlarmManager.RTC_WAKEUP, Long.parseLong(cursor.getString(6)), 24 * 60 * 60 * 1000, pi1);
+                                } else if (!ifrepeat && status == 1){
+                                    if (System.currentTimeMillis() > Long.parseLong(cursor.getString(6))) {
+                                        Log.d("case", ":settmr");
+                                        alarm.setExact(AlarmManager.RTC_WAKEUP, Long.parseLong(cursor.getString(6)) + 24 * 60 * 60 * 1000, pi1);
+                                    } else {
+                                        Log.d("case", ":settoday");
+                                        alarm.setExact(AlarmManager.RTC_WAKEUP, Long.parseLong(cursor.getString(6)), pi1);
+                                    }
                                 }
                             }
+
                             i++;
                         }
                     }

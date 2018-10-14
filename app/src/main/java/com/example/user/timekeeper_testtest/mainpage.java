@@ -418,25 +418,10 @@ public class mainpage extends Activity implements RecyclerTouchListener.Recycler
                                     db.updatestate(requestcode, state);
                                     Cursor cursor = db.selectbycode(requestcode);
                                     if (cursor != null && cursor.moveToFirst()) {
-                                        Boolean ifrepeat = Boolean.parseBoolean(cursor.getString(4));
-                                        AlarmManager alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
                                         Intent intent1 = new Intent(mainpage.this, normal_alarmalert.class);
                                         intent1.putExtra("requestcode", requestcode);
                                         Intent service = new Intent(mainpage.this, BootService.class);
                                         startService(service);
-                                        PendingIntent pi1 = PendingIntent.getActivity(mainpage.this, requestcode, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
-                                        if (ifrepeat) {
-                                            Log.d("case", ":repear");
-                                            alarm.setRepeating(AlarmManager.RTC_WAKEUP, Long.parseLong(cursor.getString(6)), 24 * 60 * 60 * 1000, pi1);
-                                        } else {
-                                            if (System.currentTimeMillis() > Long.parseLong(cursor.getString(6))) {
-                                                Log.d("case", ":settmr");
-                                                alarm.set(AlarmManager.RTC_WAKEUP, Long.parseLong(cursor.getString(6)) + 24 * 60 * 60 * 1000, pi1);
-                                            } else {
-                                                Log.d("case", ":settoday");
-                                                alarm.set(AlarmManager.RTC_WAKEUP, Long.parseLong(cursor.getString(6)), pi1);
-                                            }
-                                        }
                                     }
                                     db.close();
                                     break;
