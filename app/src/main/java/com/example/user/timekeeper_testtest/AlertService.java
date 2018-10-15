@@ -34,8 +34,6 @@ public class AlertService extends Service {
         data_record.record(this);
         dbSoundaxis = new DB_soundaxis(this);
         dbUsage = new DB_usage(this);
-        dbSoundaxis.close();
-        dbUsage.close();
 
         return super.onStartCommand(intent, flags, startId);
     }
@@ -43,5 +41,7 @@ public class AlertService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        dbSoundaxis.close();
+        dbUsage.close();
     }
 }

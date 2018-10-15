@@ -55,9 +55,15 @@ public class BootService extends Service {
                             intent1.putExtra("requestcode", cursor.getInt(3));
                             PendingIntent pi1 = PendingIntent.getActivity(BootService.this, cursor.getInt(3), intent1, PendingIntent.FLAG_UPDATE_CURRENT);
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                Log.d("build","23up");
                                 if (ifrepeat && status == 1) {
-                                    Log.d("case", ":repear");
-                                    alarm.setRepeating(AlarmManager.RTC_WAKEUP, Long.parseLong(cursor.getString(6)), 24 * 60 * 60 * 1000, pi1);
+                                    if (System.currentTimeMillis() > Long.parseLong(cursor.getString(6))) {
+                                        Log.d("case", ":settmr");
+                                        alarm.setRepeating(AlarmManager.RTC_WAKEUP, Long.parseLong(cursor.getString(6)) + 24 * 60 * 60 * 1000, 24 * 60 * 60 * 1000, pi1);
+                                    } else {
+                                        Log.d("case", ":settoday");
+                                        alarm.setRepeating(AlarmManager.RTC_WAKEUP, Long.parseLong(cursor.getString(6)), 24 * 60 * 60 * 1000, pi1);
+                                    }
                                 } else if (!ifrepeat && status == 1){
                                     if (System.currentTimeMillis() > Long.parseLong(cursor.getString(6))) {
                                         Log.d("case", ":settmr");
@@ -69,8 +75,13 @@ public class BootService extends Service {
                                 }
                             } else if (Build.VERSION.SDK_INT >=  Build.VERSION_CODES.KITKAT) {
                                 if (ifrepeat && status == 1) {
-                                    Log.d("case", ":repear");
-                                    alarm.setRepeating(AlarmManager.RTC_WAKEUP, Long.parseLong(cursor.getString(6)), 24 * 60 * 60 * 1000, pi1);
+                                    if (System.currentTimeMillis() > Long.parseLong(cursor.getString(6))) {
+                                        Log.d("case", ":settmr");
+                                        alarm.setRepeating(AlarmManager.RTC_WAKEUP, Long.parseLong(cursor.getString(6)) + 24 * 60 * 60 * 1000, 24 * 60 * 60 * 1000, pi1);
+                                    } else {
+                                        Log.d("case", ":settoday");
+                                        alarm.setRepeating(AlarmManager.RTC_WAKEUP, Long.parseLong(cursor.getString(6)), 24 * 60 * 60 * 1000, pi1);
+                                    }
                                 } else if (!ifrepeat && status == 1){
                                     if (System.currentTimeMillis() > Long.parseLong(cursor.getString(6))) {
                                         Log.d("case", ":settmr");

@@ -30,6 +30,7 @@ public class normal_alarmalert extends AppCompatActivity {
     Handler h = new Handler();
     AlertDialog dialog;
     private MyReceiver receiver;
+    int state = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +46,7 @@ public class normal_alarmalert extends AppCompatActivity {
         Cursor cursor = db.selectbycode(requestcode);
         if (cursor != null && cursor.moveToFirst()){
             musicpath = cursor.getString(1);
+            state = cursor.getInt(8);
         }
 
         receiver = new MyReceiver();
@@ -57,6 +59,7 @@ public class normal_alarmalert extends AppCompatActivity {
         win.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
 
         detectrepeat(requestcode, cursor);
+        db.updatestate(requestcode, state);
         db.close();
     }
 
@@ -167,12 +170,14 @@ public class normal_alarmalert extends AppCompatActivity {
                     Log.d("ring","for if");
                     Log.d("day",":"+d[j]);
                     ring(musicpath);
+
                     break;
                 }
             }
         }else {
             Log.d("ring","else");
             ring(musicpath);
+            state = 0;
         }
     }
 
