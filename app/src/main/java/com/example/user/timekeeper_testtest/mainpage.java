@@ -3,14 +3,18 @@ package com.example.user.timekeeper_testtest;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlarmManager;
+import android.app.AlertDialog;
 import android.app.AppOpsManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -34,6 +38,7 @@ import com.nikhilpanju.recyclerviewenhanced.OnActivityTouchListener;
 import com.nikhilpanju.recyclerviewenhanced.RecyclerTouchListener;
 import com.example.user.timekeeper_testtest.guide.guide_page;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -52,7 +57,9 @@ public class mainpage extends Activity implements RecyclerTouchListener.Recycler
     LinearLayout qus_view;
     TextView textView1,textView2,textView3;
     List<Integer> itemlist = new ArrayList<>();
+    List<Integer> requestcode = new ArrayList<>();
     DB_usage db;
+    AlertDialog dialog;
 
     // hamburger
     Button menu;
@@ -73,7 +80,6 @@ public class mainpage extends Activity implements RecyclerTouchListener.Recycler
     private RecyclerTouchListener onTouchListener;
     private int openOptionsPosition;
     private OnActivityTouchListener touchListener;
-    int[] requestcode = new int[50];
     String[] alarmtype = new String[50];
 
     @Override
@@ -134,19 +140,49 @@ public class mainpage extends Activity implements RecyclerTouchListener.Recycler
         }
 
         //Permission
-        if (!isAccessGranted()) {
-            startActivity(new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS));
-        }
-
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
                 != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.RECORD_AUDIO)) {
+                final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage("ＡＩ需要開啟麥克風及九軸的權限，才能進行ＡＩ收集！請麻煩一定要開啟權限喔。");
+                builder.setPositiveButton("我知道了", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Uri packageURI = Uri.parse("package:" + "com.example.user.timekeeper_testtest");
+                        Intent appintent= new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, packageURI);
+                        startActivity(appintent);
+                    }
+                });
+                dialog = builder.show();
+                builder.show();
 
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, BuildDev.RECORD_AUDIO);
+            }else {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO},
+                        BuildDev.RECORD_AUDIO);
+            }
         }
         int permission = ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.READ_EXTERNAL_STORAGE);
         if (permission != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{READ_EXTERNAL_STORAGE}, REQUEST_EXTERNAL_STORAGE);
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.RECORD_AUDIO)) {
+                final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage("提供存取權限，才能記錄鬧鐘以及選音樂喔！");
+                builder.setPositiveButton("我知道了", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Uri packageURI = Uri.parse("package:" + "com.example.user.timekeeper_testtest");
+                        Intent appintent= new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, packageURI);
+                        startActivity(appintent);
+                    }
+                });
+                dialog = builder.show();
+                builder.show();
+            }else {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                        REQUEST_EXTERNAL_STORAGE);
+            }
         }
 
 
@@ -205,7 +241,8 @@ public class mainpage extends Activity implements RecyclerTouchListener.Recycler
 //                        } else {
 //                            intent = new Intent(mainpage.this, ai_alarm.class);
 //                        }
-                        intent.putExtra("requestcode", requestcode[position]);
+                        intent.putExtra("requestcode", requestcode.get(position));
+                        Log.d("request",":"+requestcode.get(position));
                         startActivity(intent);
                     }
 
@@ -272,9 +309,10 @@ public class mainpage extends Activity implements RecyclerTouchListener.Recycler
                     }
                     list.add(new mainpage_RowModel(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getInt(3), Boolean.parseBoolean(cursor.getString(4))
                             , cursor.getString(5), time, cursor.getString(7), cursor.getInt(8)));
-                    requestcode[i] = cursor.getInt(3);
+                    requestcode.add(i, cursor.getInt(3));
                     alarmtype[i] = cursor.getString(7);
                     itemlist.add(i, i);
+                    Log.d("request",":"+requestcode.get(i));
                     Log.d("add",":"+itemlist.get(i));
                     i++;
                 }
@@ -325,10 +363,20 @@ public class mainpage extends Activity implements RecyclerTouchListener.Recycler
                     DB_normal_alarm db = new DB_normal_alarm(mainpage.this);
                     AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
                     Intent intent = new Intent(mainpage.this, normal_alarmalert.class);
-                    PendingIntent pi = PendingIntent.getActivity(mainpage.this, requestcode[position], intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    PendingIntent pi = PendingIntent.getActivity(mainpage.this, requestcode.get(position), intent, PendingIntent.FLAG_UPDATE_CURRENT);
                     alarmManager.cancel(pi);
-                    db.delete(requestcode[position]);
+                    db.delete(requestcode.get(position));
                     removeData(itemlist.get(position));
+                    if (db != null) {
+                        Cursor cursor = db.select();
+                        if (cursor.getCount() > 0) {
+                            int i = 0;
+                            for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+                                requestcode.add(i, cursor.getInt(3));
+                                i++;
+                            }
+                        }
+                    }
                     db.close();
                 }
             });
@@ -337,7 +385,7 @@ public class mainpage extends Activity implements RecyclerTouchListener.Recycler
         }
 
         //刪除鬧鐘
-        public void removeData(int position) {
+        public void removeData(final int position) {
             modelList.remove(position);
 
             //删除动画
@@ -345,6 +393,7 @@ public class mainpage extends Activity implements RecyclerTouchListener.Recycler
             for (int a = position+1; (itemlist.size()) > a; a++){
                 itemlist.set(a, itemlist.get(a)-1);
             }
+
         }
 
         @Override
@@ -540,7 +589,4 @@ public class mainpage extends Activity implements RecyclerTouchListener.Recycler
         }
         db.close();
     }
-
-
-
 }
