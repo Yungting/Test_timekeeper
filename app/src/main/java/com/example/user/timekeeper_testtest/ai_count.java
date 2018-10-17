@@ -44,7 +44,7 @@ public class ai_count{
     public static ArrayList z_axis;
     public static ArrayList sound_db;
     ArrayList up_id,up_date_alarm,up_date_time,up_x_axis,up_y_axis,up_z_axis,up_sound_db;
-    ArrayList up_id_u,up_date_time_u,up_period_u;
+    ArrayList up_id_u,up_date_time_u,up_period_u,up_awake_u;
     String sql,sqltmp,sql_u,sql_u_tmp,u_id;
     Connect_To_Server connecting;
     Context record ;
@@ -76,6 +76,7 @@ public class ai_count{
         up_sound_db = new ArrayList();
         up_id_u = new ArrayList();
         up_date_time_u = new ArrayList();
+        up_awake_u  = new ArrayList();
         up_period_u = new ArrayList();
         dbSoundaxis = new DB_soundaxis(record);
         dbUsage = new DB_usage(record);
@@ -105,7 +106,6 @@ public class ai_count{
             Log.d("紀錄", "開始");
         }
         CheckState_SubmitRecord();
-        CheckRecordtime_SubmitRecord();
     }
 
     public void usagetime(long stopuse){
@@ -155,7 +155,7 @@ public class ai_count{
                 for(int i = 0; i<update_cursor.getCount();i++){
                     update_cursor.moveToPosition(i);
                     up_id.add(update_cursor.getString(update_cursor.getColumnIndex("_id")));
-                    up_date_alarm.add(String.valueOf(time));
+                    up_date_alarm.add(update_cursor.getString(update_cursor.getColumnIndex("date_alarm")));
                     up_date_time.add((update_cursor.getString(update_cursor.getColumnIndex("date_time"))));
                     up_x_axis.add((update_cursor.getString(update_cursor.getColumnIndex("x_axis"))));
                     up_y_axis.add((update_cursor.getString(update_cursor.getColumnIndex("y_axis"))));
@@ -180,8 +180,16 @@ public class ai_count{
                 sql = sql+sqltmp;
                 Log.d("sql語法",sql);
                 connecting.connect("insert_sql",sql);
-                dbSoundaxis.update_state_change();
-                dbSoundaxis.deleteAll();
+                try {
+                    Thread.sleep(400);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                Log.d("測試","狀態"+connecting.internet_connect);
+                if(connecting.internet_connect){
+                    dbSoundaxis.update_state_change();
+                    dbSoundaxis.deleteAll();
+                }
             }
         });
         thread_check_time.start();
@@ -218,21 +226,31 @@ public class ai_count{
                     up_date_time_u.add(update_cursor.getString(update_cursor.getColumnIndex("date")));
                     up_period_u.add((update_cursor.getString(update_cursor.getColumnIndex("period"))));
                 }
-                sql_u = "INSERT INTO `screen_record` (`Date`, `User_id`, `Period`) VALUES";
+                //sql_u = "INSERT INTO `screen_record` (`Date`, `User_id`, `Period`, `r_ifawake`) VALUES";
                 for(int i = 0;i<up_id_u.size();i++){
                     String id = up_id_u.get(i).toString();
                     String time = up_date_time_u.get(i).toString();
                     int period  = Integer.parseInt(up_period_u.get(i).toString());
+                    sql_u = "INSERT INTO `screen_record` (`Date`, `User_id`, `Period`) VALUES";
                     if(i == up_id_u.size()-1){
                         sql_u_tmp = sql_u_tmp+"('"+time+"','"+id+"', '"+period+"');";
                     }else {
                         sql_u_tmp = sql_u_tmp+"('"+time+"','"+id+"', '"+period+"'),";
                     }
+
                 }
                 sql_u = sql_u+sql_u_tmp;
                 Log.d("sql語法",sql_u);
                 connecting.connect("insert_sql",sql_u);
-                dbUsage.update_state_change();
+                try {
+                    Thread.sleep(400);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                Log.d("測試","狀態"+connecting.internet_connect);
+                if(connecting.internet_connect){
+                    dbUsage.update_state_change();
+                }
             }
         });
         thread_check_state.start();

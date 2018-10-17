@@ -29,6 +29,13 @@ public class DB_usage extends SQLiteOpenHelper {
         Cursor cursor = db.query("usage",null,null,null,null,null,null);
         return cursor;
     }
+    public Cursor select_this_usage(String Date){
+        String select_column[] = {"state"};
+        String select_Date[] = {Date};
+        Cursor cursor = db.query("usage",null,"date=?",select_Date,null,null,null);
+        //Cursor cursor = db.query("usage",null,null,null,null,null,null);
+        return cursor;
+    }
     public Cursor select_update(){
         String select_column[] = {"state"};
         String select_state[] = {"0"};
@@ -68,6 +75,13 @@ public class DB_usage extends SQLiteOpenHelper {
         String sql = "UPDATE usage SET ifawake = ? WHERE id = ? AND date = ?";
         db.execSQL(sql, new Object[]{wake, u_id, Date});
     }
+
+    public void delete(String u_id, String Date){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String sql = "DELETE FROM usage WHERE id = ? AND date = ?";
+        db.execSQL(sql, new Object[]{u_id, Date});
+    }
+
     public void deleteAll()
     {
         SQLiteDatabase db = this.getWritableDatabase();

@@ -1,7 +1,10 @@
 package com.example.user.timekeeper_testtest;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,6 +17,10 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -21,7 +28,6 @@ import java.util.List;
 import static com.example.user.timekeeper_testtest.mainpage.KEY;
 
 public class check extends AppCompatActivity {
-
     private MyAdapter mAdapter;
     private RecyclerView mRecyclerView;
     Connect_To_Server connecting = new Connect_To_Server();
@@ -31,6 +37,7 @@ public class check extends AppCompatActivity {
     ArrayList<String> dbdate = new ArrayList<>();
     View timekeeper_logo;
     TextView nothing_text;
+    ArrayList<Integer> period = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +91,7 @@ public class check extends AppCompatActivity {
                         myDateset.add(date);
                         myTimeset.add(time);
                         dbdate.add(cursor.getString(1));
+                        period.add(cursor.getInt(2));
                     }
                 }
             }
@@ -91,8 +99,8 @@ public class check extends AppCompatActivity {
         if (myDateset.size() == 0 && myTimeset.size() == 0){
             nothing_text.setVisibility(View.VISIBLE);
             nothing_text.setText("您還沒設置過鬧鐘\n" +
-                        "或是您已經都點擊完畢了~\n" +
-                        "所以目前沒有資訊喔！");
+                    "或是您已經都點擊完畢了~\n" +
+                    "所以目前沒有資訊喔！");
         }
 
         mAdapter = new MyAdapter(myDateset, myTimeset);
@@ -152,11 +160,25 @@ public class check extends AppCompatActivity {
                     Log.d("date", ":" + dbdate.get(position));
                     String dbdb = dbdate.get(position);
                     db.ifawake(u_id, dbdb, true);
-
-                    String sql_u = "UPDATE `screen_record` SET `r_ifawake`="
-                            + true + " WHERE `User_id`='" + u_id + "' AND `Date`='" + dbdate.get(position) + "'";
-                    connecting.connect("insert_sql", sql_u);
                     showtext.setText("成功叫醒，感謝您的確認!!");
+                    if (isNetworkConnected(getBaseContext())) {
+                        if (db != null) {
+                            Cursor cursor = db.select();
+                            if (cursor.getCount() > 0) {
+                                int i = 0;
+                                for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+                                    if (cursor.getString(3) != null) {
+                                        String sql_u = "UPDATE `screen_record` SET `r_ifawake`="
+                                                + true + " WHERE `User_id`='" + u_id + "' AND `Date`='" + cursor.getString(1) + "'";
+                                        connecting.connect("insert_sql", sql_u);
+                                        String sql_i = "INSERT INTO  `screen_record`(User_id, Date, Period, r_ifawake) VALUES ('" + u_id + "', '" + cursor.getString(1) + "', " + cursor.getInt(2) + ", " + true + ")";
+                                        connecting.connect("insert_sql", sql_i);
+                                        db.delete(u_id, cursor.getString(1));
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             });
 
@@ -164,24 +186,25 @@ public class check extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     db.ifawake(u_id, dbdate.get(position), false);
-                    String sql_u = "UPDATE `screen_record` SET `r_ifawake`="
-                            + false + " WHERE `User_id`='" + u_id + "' AND `Date`='" + dbdate.get(position) + "'";
-                    connecting.connect("insert_sql", sql_u);
                     showtext.setText("沒有叫醒，感謝您的確認!!");
-                }
-            });
-
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(check.this, "Item " + position + " is clicked.", Toast.LENGTH_SHORT).show();
-                }
-            });
-            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    Toast.makeText(check.this, "Item " + position + " is long clicked.", Toast.LENGTH_SHORT).show();
-                    return true;
+                    if (isNetworkConnected(getBaseContext())) {
+                        if (db != null) {
+                            Cursor cursor = db.select();
+                            if (cursor.getCount() > 0) {
+                                int i = 0;
+                                for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+                                    if (cursor.getString(3) != null) {
+                                        String sql_u = "UPDATE `screen_record` SET `r_ifawake`="
+                                                + false + " WHERE `User_id`='" + u_id + "' AND `Date`='" + cursor.getString(1) + "'";
+                                        connecting.connect("insert_sql", sql_u);
+                                        String sql_i = "INSERT INTO  `screen_record`(User_id, Date, Period, r_ifawake) VALUES ('" + u_id + "', '" + cursor.getString(1) + "', " + cursor.getInt(2) + ", " + false + ")";
+                                        connecting.connect("insert_sql", sql_i);
+                                        db.delete(u_id, cursor.getString(1));
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             });
         }
@@ -191,4 +214,16 @@ public class check extends AppCompatActivity {
             return mDate.size();
         }
     }
-}
+
+
+        public boolean isNetworkConnected(Context context) {
+            if (context != null) {
+                ConnectivityManager mConnectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+                NetworkInfo mNetworkInfo = mConnectivityManager.getActiveNetworkInfo();
+                if (mNetworkInfo != null) {
+                    return mNetworkInfo.isAvailable();
+                }
+            }
+            return false;
+        }
+    }
