@@ -20,8 +20,7 @@ import static com.example.user.timekeeper_testtest.mainpage.KEY;
 
 //extends AppCompatActivity
 public class ai_count{
-    public static long start_time;
-    public static long stop_record_time;
+    public static int clock_count = 0;
     long time, stopuse;
     int sec;
     static String state;
@@ -96,8 +95,8 @@ public class ai_count{
         Log.d("tag", "get"+time);
 
         getScreen(time);
-        start_time = System.currentTimeMillis();
-        stop_record_time = start_time+ 60*1000;//結束時間設為一分鐘後
+//        start_time = System.currentTimeMillis();
+//        stop_record_time = start_time+ 60*1000;//結束時間設為一分鐘後
         Log.d("state", "s"+state);
         if(state == "true"){
             start_listen_nine_axis();
@@ -289,8 +288,13 @@ public class ai_count{
                         e.printStackTrace();
                     }
                 }
-                axis_recorder.start_record(sensorManager,false);//九軸停止紀錄(但現在我註解掉了)
-                sound_recorder.stopRecord();//停止錄音
+                clock_count--;
+                if(clock_count == 0){
+                    axis_recorder.start_record(sensorManager,false);//九軸停止紀錄(但現在我註解掉了)
+                    sound_recorder.stopRecord();//停止錄音
+                }
+//                axis_recorder.start_record(sensorManager,false);//九軸停止紀錄(但現在我註解掉了)
+//                sound_recorder.stopRecord();//停止錄音
                 for(int i = 0;i<id.size();i++){
                     dbSoundaxis.insert(id.get(i).toString(), (Timestamp) date_time.get(i), Double.parseDouble(x_axis.get(i).toString()),
                             Double.parseDouble(y_axis.get(i).toString()),Double.parseDouble(z_axis.get(i).toString()),
