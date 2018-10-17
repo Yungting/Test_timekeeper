@@ -123,6 +123,111 @@ public class mainpage extends Activity implements RecyclerTouchListener.Recycler
             startActivity(intent);
         }
 
+        //設定增加的子按鈕顯示或隱藏
+        add_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent1 = new Intent(mainpage.this, normal_alarm.class);
+                startActivity(intent1);
+            }
+        });
+
+
+        qus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mainpage.this, guide_page.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+//        normal_btn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent1 = new Intent(mainpage.this, normal_alarm.class);
+//                startActivity(intent1);
+//            }
+//        });
+
+
+        //recyclerview
+        unclickableRows = new ArrayList<>();
+        unswipeableRows = new ArrayList<>();
+        dialogItems = new String[25];
+        for (int i = 0; i < 25; i++) {
+            dialogItems[i] = String.valueOf(i + 1);
+        }
+
+        mRecyclerView = findViewById(R.id.recyclerView);
+
+        onTouchListener = new RecyclerTouchListener(this, mRecyclerView);
+        onTouchListener
+                .setIndependentViews(R.id.rowButton)
+                .setViewsToFade(R.id.rowButton)
+                .setClickable(new RecyclerTouchListener.OnRowClickListener() {
+                    @Override
+                    public void onRowClicked(int position) {
+                        Intent intent;
+                        intent = new Intent(mainpage.this, normal_alarm.class);
+//                        if (alarmtype[position].equals("normal")) {
+//                            intent = new Intent(mainpage.this, normal_alarm.class);
+//                        } else {
+//                            intent = new Intent(mainpage.this, ai_alarm.class);
+//                        }
+                        intent.putExtra("requestcode", requestcode.get(position));
+                        Log.d("request",":"+requestcode.get(position));
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onIndependentViewClicked(int independentViewID, int position) {
+//                        ToastUtil.makeToast(getApplicationContext(), "Button in row " + (position + 1) + " clicked!");
+                    }
+                })
+                .setLongClickable(true, new RecyclerTouchListener.OnRowLongClickListener() {
+                    @Override
+                    public void onRowLongClicked(int position) {
+//                        ToastUtil.makeToast(getApplicationContext(), "Row " + (position + 1) + " long clicked!");
+                    }
+                })
+                .setSwipeOptionViews(R.id.delete)
+                .setSwipeable(R.id.rowFG, R.id.rowBG, new RecyclerTouchListener.OnSwipeOptionsClickListener() {
+                    @Override
+                    public void onSwipeOptionClicked(int viewID, int position) {
+                        String message = "";
+                        if (viewID == R.id.delete) {
+                            message += "Change";
+                        }
+                    }
+                });
+    }
+
+    //recyclerview
+    @Override
+    protected void onResume() {
+        super.onResume();
+        checkusage();
+        mAdapter = new MainAdapter(this, getData());
+        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.addOnItemTouchListener(onTouchListener);
+
+        // 選單彈跳
+        menu = findViewById(R.id.menu);
+        menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(popupWindow == null){
+                    showPopupWindow();
+                }else if(popupWindow.isShowing()){
+                    popupWindow.dismiss();
+                }else{
+                    popupWindow.showAsDropDown(menu,0,-155);
+                }
+            }
+        });
+
         //Permission
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -174,117 +279,16 @@ public class mainpage extends Activity implements RecyclerTouchListener.Recycler
                         REQUEST_EXTERNAL_STORAGE);
             }
         }
-
-
-        //設定增加的子按鈕顯示或隱藏
-        add_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent1 = new Intent(mainpage.this, normal_alarm.class);
-                startActivity(intent1);
-            }
-        });
-
-
-        qus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(mainpage.this, guide_page.class);
-                startActivity(intent);
-                finish();
-            }
-        });
-
-//        normal_btn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent1 = new Intent(mainpage.this, normal_alarm.class);
-//                startActivity(intent1);
-//            }
-//        });
-
-
-        //recyclerview
-        unclickableRows = new ArrayList<>();
-        unswipeableRows = new ArrayList<>();
-        dialogItems = new String[25];
-        for (int i = 0; i < 25; i++) {
-            dialogItems[i] = String.valueOf(i + 1);
-        }
-
-        mRecyclerView = findViewById(R.id.recyclerView);
-        mAdapter = new MainAdapter(this, getData());
-        mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        onTouchListener = new RecyclerTouchListener(this, mRecyclerView);
-        onTouchListener
-                .setIndependentViews(R.id.rowButton)
-                .setViewsToFade(R.id.rowButton)
-                .setClickable(new RecyclerTouchListener.OnRowClickListener() {
-                    @Override
-                    public void onRowClicked(int position) {
-                        Intent intent;
-                        intent = new Intent(mainpage.this, normal_alarm.class);
-//                        if (alarmtype[position].equals("normal")) {
-//                            intent = new Intent(mainpage.this, normal_alarm.class);
-//                        } else {
-//                            intent = new Intent(mainpage.this, ai_alarm.class);
-//                        }
-                        intent.putExtra("requestcode", requestcode.get(position));
-                        Log.d("request",":"+requestcode.get(position));
-                        startActivity(intent);
-                    }
-
-                    @Override
-                    public void onIndependentViewClicked(int independentViewID, int position) {
-//                        ToastUtil.makeToast(getApplicationContext(), "Button in row " + (position + 1) + " clicked!");
-                    }
-                })
-                .setLongClickable(true, new RecyclerTouchListener.OnRowLongClickListener() {
-                    @Override
-                    public void onRowLongClicked(int position) {
-//                        ToastUtil.makeToast(getApplicationContext(), "Row " + (position + 1) + " long clicked!");
-                    }
-                })
-                .setSwipeOptionViews(R.id.delete)
-                .setSwipeable(R.id.rowFG, R.id.rowBG, new RecyclerTouchListener.OnSwipeOptionsClickListener() {
-                    @Override
-                    public void onSwipeOptionClicked(int viewID, int position) {
-                        String message = "";
-                        if (viewID == R.id.delete) {
-                            message += "Change";
-                        }
-                    }
-                });
-    }
-
-    //recyclerview
-    @Override
-    protected void onResume() {
-        super.onResume();
-        checkusage();
-        mRecyclerView.addOnItemTouchListener(onTouchListener);
-
-        // 選單彈跳
-        menu = findViewById(R.id.menu);
-        menu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(popupWindow == null){
-                    showPopupWindow();
-                }else if(popupWindow.isShowing()){
-                    popupWindow.dismiss();
-                }else{
-                    popupWindow.showAsDropDown(menu,0,-155);
-                }
-            }
-        });
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        if (dialog != null && dialog.isShowing()){
+            dialog.dismiss();
+            dialog.cancel();
+        }
+
         mRecyclerView.removeOnItemTouchListener(onTouchListener);
     }
 
