@@ -86,9 +86,7 @@ public class mainpage extends Activity implements RecyclerTouchListener.Recycler
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.mainpage);
-        checkusage();
 
         add_btn = findViewById(R.id.add_btn);
         ai_btn = findViewById(R.id.ai_btn);
@@ -114,21 +112,6 @@ public class mainpage extends Activity implements RecyclerTouchListener.Recycler
         textView3 = findViewById(R.id.textView3);
         textView3.setText("當跳出頁面後就無法修改囉！！\n");
 
-        // 選單彈跳
-        menu = findViewById(R.id.menu);
-        menu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(popupWindow == null){
-                    showPopupWindow();
-                }else if(popupWindow.isShowing()){
-                    popupWindow.dismiss();
-                }else{
-                    popupWindow.showAsDropDown(menu,0,-155);
-                }
-            }
-        });
-
 
         String user = getSharedPreferences(KEY, MODE_PRIVATE).getString("u_id", null);
         String pwd = getSharedPreferences(KEY, MODE_PRIVATE).getString("u_pwd", null);
@@ -144,7 +127,7 @@ public class mainpage extends Activity implements RecyclerTouchListener.Recycler
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
                 != PackageManager.PERMISSION_GRANTED) {
             if (Build.VERSION.SDK_INT >=  Build.VERSION_CODES.M){
-                if (!ActivityCompat.shouldShowRequestPermissionRationale(this,
+                if (ActivityCompat.shouldShowRequestPermissionRationale(this,
                         Manifest.permission.RECORD_AUDIO)) {
                     final AlertDialog.Builder builder = new AlertDialog.Builder(this);
                     builder.setMessage("ＡＩ需要開啟麥克風及九軸的權限，才能進行ＡＩ收集！請麻煩一定要開啟權限喔。");
@@ -158,7 +141,6 @@ public class mainpage extends Activity implements RecyclerTouchListener.Recycler
                     });
                     dialog = builder.show();
                     builder.show();
-
                 }else {
                     ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO},
                             BuildDev.RECORD_AUDIO);
@@ -169,7 +151,7 @@ public class mainpage extends Activity implements RecyclerTouchListener.Recycler
                 Manifest.permission.READ_EXTERNAL_STORAGE);
         if (permission != PackageManager.PERMISSION_GRANTED) {
             if (Build.VERSION.SDK_INT >=  Build.VERSION_CODES.M){
-                if (!ActivityCompat.shouldShowRequestPermissionRationale(this,
+                if (ActivityCompat.shouldShowRequestPermissionRationale(this,
                         Manifest.permission.READ_EXTERNAL_STORAGE)) {
                     final AlertDialog.Builder builder = new AlertDialog.Builder(this);
                     builder.setMessage("提供存取權限，才能記錄鬧鐘以及選音樂喔！");
@@ -281,7 +263,23 @@ public class mainpage extends Activity implements RecyclerTouchListener.Recycler
     @Override
     protected void onResume() {
         super.onResume();
+        checkusage();
         mRecyclerView.addOnItemTouchListener(onTouchListener);
+
+        // 選單彈跳
+        menu = findViewById(R.id.menu);
+        menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(popupWindow == null){
+                    showPopupWindow();
+                }else if(popupWindow.isShowing()){
+                    popupWindow.dismiss();
+                }else{
+                    popupWindow.showAsDropDown(menu,0,-155);
+                }
+            }
+        });
     }
 
     @Override
