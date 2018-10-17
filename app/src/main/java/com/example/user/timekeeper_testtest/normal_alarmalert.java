@@ -78,6 +78,8 @@ public class normal_alarmalert extends AppCompatActivity {
             dialog.dismiss();
             dialog.cancel();
         }
+        Intent service = new Intent(this, BootService.class);
+        startService(service);
 
     }
 
@@ -105,7 +107,6 @@ public class normal_alarmalert extends AppCompatActivity {
                 Calendar cd = Calendar.getInstance();
                 cd.setTimeInMillis(System.currentTimeMillis());
                 long time = cd.getTimeInMillis();
-                //Intent intent1 = new Intent(normal_alarmalert.this, ai_count.class);
                 Log.d("alert", "time"+time);
                 ai_count.clock_count++;//1017
                 send();
@@ -228,7 +229,6 @@ public class normal_alarmalert extends AppCompatActivity {
                     Calendar cd = Calendar.getInstance();
                     cd.setTimeInMillis(System.currentTimeMillis());
                     long time = cd.getTimeInMillis();
-                    //Intent intent1 = new Intent(normal_alarmalert.this, ai_count.class);
                     Log.d("alert", "time"+time);
                     send();
                     finish();
