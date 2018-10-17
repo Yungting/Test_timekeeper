@@ -59,10 +59,10 @@ public class BootService extends Service {
                                 if (ifrepeat && status == 1) {
                                     if (System.currentTimeMillis() > Long.parseLong(cursor.getString(6))) {
                                         Log.d("case", ":settmr");
-                                        alarm.setRepeating(AlarmManager.RTC_WAKEUP, Long.parseLong(cursor.getString(6)) + 24 * 60 * 60 * 1000, 24 * 60 * 60 * 1000, pi1);
+                                        alarm.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, Long.parseLong(cursor.getString(6)) + 24 * 60 * 60 * 1000,  pi1);
                                     } else {
                                         Log.d("case", ":settoday");
-                                        alarm.setRepeating(AlarmManager.RTC_WAKEUP, Long.parseLong(cursor.getString(6)), 24 * 60 * 60 * 1000, pi1);
+                                        alarm.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, Long.parseLong(cursor.getString(6)),  pi1);
                                     }
                                 } else if (!ifrepeat && status == 1){
                                     if (System.currentTimeMillis() > Long.parseLong(cursor.getString(6))) {
