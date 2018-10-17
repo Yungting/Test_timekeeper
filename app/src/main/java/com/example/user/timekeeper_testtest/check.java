@@ -53,9 +53,10 @@ public class check extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 db.close();
-                Intent main = new Intent(check.this, mainpage.class);
-                startActivity(main);
+                Intent mIntent = new Intent(check.this, mainpage.class);
+                mIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 finish();
+                startActivity(mIntent);
             }
         });
 
@@ -226,4 +227,4 @@ public class check extends AppCompatActivity {
             }
             return false;
         }
-    }
+}
