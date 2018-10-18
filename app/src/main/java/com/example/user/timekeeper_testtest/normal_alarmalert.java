@@ -65,8 +65,8 @@ public class normal_alarmalert extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        unregisterReceiver(receiver);
         super.onDestroy();
+        unregisterReceiver(receiver);
         if (mp!=null){
             if (mp.isPlaying()){
                 mp.stop();
@@ -168,11 +168,12 @@ public class normal_alarmalert extends AppCompatActivity {
                 i++;
             }
             for (int j = 0; j<7; j++){
-                if (d[j] == calendar.get(Calendar.DAY_OF_WEEK)){
-                    Log.d("ring","for if");
-                    Log.d("day",":"+d[j]);
+                Log.d("d[j]",":"+d[j]);
+                Log.d("dayofweek",":"+calendar.get(Calendar.DAY_OF_WEEK));
+                if (d[j] == calendar.get(Calendar.DAY_OF_WEEK)) {
+                    Log.d("ring", "for if");
+                    Log.d("day", ":" + d[j]);
                     ring(musicpath);
-
                     break;
                 }
             }
@@ -215,6 +216,7 @@ public class normal_alarmalert extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
+
             if (action.equals(Intent.ACTION_CLOSE_SYSTEM_DIALOGS)) {
                 String reason = intent.getStringExtra(SYSTEM_DIALOG_REASON_KEY);
 

@@ -226,7 +226,7 @@ public class normal_alarm extends Activity {
         repeat_text="";
         i = 0;
 
-        if (day_Su.isChecked()){ repeat_text = "Su "; repeatday[i] = 1; i++;}
+        if (day_Su.isChecked()){ repeat_text = "Su  "; repeatday[i] = 1; i++;}
         if (day_M.isChecked()){ repeat_text = repeat_text+"M  "; repeatday[i] = 2; i++;}
         if (day_T.isChecked()){ repeat_text = repeat_text+"T  "; repeatday[i] = 3; i++;}
         if (day_W.isChecked()){ repeat_text = repeat_text+"W  "; repeatday[i] = 4; i++;}
