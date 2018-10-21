@@ -127,9 +127,9 @@ public class normal_alarmalert extends AppCompatActivity {
         long triggertime = System.currentTimeMillis()+300000;
         Intent intent = new Intent(this, normal_alarmalert.class);
         intent.putExtra("requestcode", requestcode);
-        PendingIntent op = PendingIntent.getActivity(this, requestcode, intent ,PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent op = PendingIntent.getActivity(this, 1, intent ,PendingIntent.FLAG_UPDATE_CURRENT);
 
-        am.setExact(AlarmManager.RTC, triggertime,op);
+        am.setExact(AlarmManager.RTC, triggertime, op);
     }
 
     public void oneminute(){
@@ -147,38 +147,17 @@ public class normal_alarmalert extends AppCompatActivity {
         h.postDelayed(stopPlaybackRun, 60 * 1000);
     }
 
-    public void detectrepeat(int requestcode, Cursor cursor){
-        String rday = cursor.getString(0);
-        if (rday != null && !rday.equals("")){
-            String[] arrays = rday.trim().split("\\s+");
-            int i = 0;
-            int[] d = new int[7];
-
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTimeInMillis(System.currentTimeMillis());
-
-            for(String s : arrays){
-                if (s.equals("Su")){ d[i] = 1;}
-                if (s.equals("M")){ d[i] = 2;}
-                if (s.equals("T")){ d[i] = 3;}
-                if (s.equals("W")){ d[i] = 4;}
-                if (s.equals("Th")){ d[i] = 5;}
-                if (s.equals("F")){ d[i] = 6;}
-                if (s.equals("S")){ d[i] = 7;}
-                i++;
-            }
-            for (int j = 0; j<7; j++){
-                Log.d("d[j]",":"+d[j]);
-                Log.d("dayofweek",":"+calendar.get(Calendar.DAY_OF_WEEK));
-                if (d[j] == calendar.get(Calendar.DAY_OF_WEEK)) {
-                    Log.d("ring", "for if");
-                    Log.d("day", ":" + d[j]);
-                    ring(musicpath);
-                    break;
-                }
-            }
-        }else {
-            Log.d("ring","else");
+    public void detectrepeat(int requestcode, Cursor cursor) {
+        Boolean ifrepeat;
+        if (cursor.getString(4).equals("0")) {
+            ifrepeat = false;
+        } else {
+            ifrepeat = true;
+        }
+        if (ifrepeat) {
+            ring(musicpath);
+        } else {
+            Log.d("ring", "else");
             ring(musicpath);
             state = 0;
         }
