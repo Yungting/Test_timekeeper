@@ -53,59 +53,6 @@ public class normal_alarm extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.normal_alarm);
         TextView normal_edit_title = findViewById(R.id.normal_edit_title);
-
-        //Permission
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
-                != PackageManager.PERMISSION_GRANTED) {
-            if (Build.VERSION.SDK_INT >=  Build.VERSION_CODES.M){
-                if (!ActivityCompat.shouldShowRequestPermissionRationale(this,
-                        Manifest.permission.RECORD_AUDIO)) {
-                    final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                    builder.setMessage("ＡＩ需要開啟麥克風及九軸的權限，才能進行ＡＩ收集！請麻煩一定要開啟權限喔。");
-                    builder.setPositiveButton("我知道了", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Uri packageURI = Uri.parse("package:" + "com.example.user.timekeeper_testtest");
-                            Intent appintent= new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, packageURI);
-                            startActivity(appintent);
-                        }
-                    });
-                    dialog = builder.show();
-                    builder.show();
-
-                }else {
-                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO},
-                            mainpage.BuildDev.RECORD_AUDIO);
-                }
-            }
-        }
-        int permission = ActivityCompat.checkSelfPermission(this,
-                Manifest.permission.READ_EXTERNAL_STORAGE);
-        if (permission != PackageManager.PERMISSION_GRANTED) {
-            if (Build.VERSION.SDK_INT >=  Build.VERSION_CODES.M){
-                if (!ActivityCompat.shouldShowRequestPermissionRationale(this,
-                        Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                    final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                    builder.setMessage("提供存取權限，才能記錄鬧鐘以及選音樂喔！");
-                    builder.setPositiveButton("我知道了", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Uri packageURI = Uri.parse("package:" + "com.example.user.timekeeper_testtest");
-                            Intent appintent= new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, packageURI);
-                            startActivity(appintent);
-                        }
-                    });
-                    dialog = builder.show();
-                    builder.show();
-                }else {
-                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                            REQUEST_EXTERNAL_STORAGE);
-                }
-            }else {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                        REQUEST_EXTERNAL_STORAGE);
-            }
-        }
         
         Intent intentcode = getIntent();
         if (intentcode!= null){
@@ -279,7 +226,7 @@ public class normal_alarm extends Activity {
         repeat_text="";
         i = 0;
 
-        if (day_Su.isChecked()){ repeat_text = "Su "; repeatday[i] = 1; i++;}
+        if (day_Su.isChecked()){ repeat_text = "Su  "; repeatday[i] = 1; i++;}
         if (day_M.isChecked()){ repeat_text = repeat_text+"M  "; repeatday[i] = 2; i++;}
         if (day_T.isChecked()){ repeat_text = repeat_text+"T  "; repeatday[i] = 3; i++;}
         if (day_W.isChecked()){ repeat_text = repeat_text+"W  "; repeatday[i] = 4; i++;}
@@ -403,6 +350,64 @@ public class normal_alarm extends Activity {
         if (token != null) {
             InputMethodManager im = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             im.hideSoftInputFromWindow(token, InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+
+        //Permission
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
+                != PackageManager.PERMISSION_GRANTED) {
+            if (Build.VERSION.SDK_INT >=  Build.VERSION_CODES.M){
+                if (!ActivityCompat.shouldShowRequestPermissionRationale(this,
+                        Manifest.permission.RECORD_AUDIO)) {
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    builder.setMessage("ＡＩ需要開啟麥克風及九軸的權限，才能進行ＡＩ收集！請麻煩一定要開啟權限喔。");
+                    builder.setPositiveButton("我知道了", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Uri packageURI = Uri.parse("package:" + "com.example.user.timekeeper_testtest");
+                            Intent appintent= new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, packageURI);
+                            startActivity(appintent);
+                        }
+                    });
+                    dialog = builder.show();
+                    builder.show();
+
+                }else {
+                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO},
+                            mainpage.BuildDev.RECORD_AUDIO);
+                }
+            }
+        }
+        int permission = ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.READ_EXTERNAL_STORAGE);
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            if (Build.VERSION.SDK_INT >=  Build.VERSION_CODES.M){
+                if (!ActivityCompat.shouldShowRequestPermissionRationale(this,
+                        Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    builder.setMessage("提供存取權限，才能記錄鬧鐘以及選音樂喔！");
+                    builder.setPositiveButton("我知道了", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Uri packageURI = Uri.parse("package:" + "com.example.user.timekeeper_testtest");
+                            Intent appintent= new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, packageURI);
+                            startActivity(appintent);
+                        }
+                    });
+                    dialog = builder.show();
+                    builder.show();
+                }else {
+                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                            REQUEST_EXTERNAL_STORAGE);
+                }
+            }else {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                        REQUEST_EXTERNAL_STORAGE);
+            }
         }
     }
 
