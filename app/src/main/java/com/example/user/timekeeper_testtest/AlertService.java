@@ -35,6 +35,7 @@ public class AlertService extends Service {
         dbSoundaxis = new DB_soundaxis(this);
         dbUsage = new DB_usage(this);
 
+        stopService(intent);
         return super.onStartCommand(intent, flags, startId);
     }
 
