@@ -373,7 +373,7 @@ public class mainpage extends Activity implements RecyclerTouchListener.Recycler
                     DB_normal_alarm db = new DB_normal_alarm(mainpage.this);
                     AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
                     Intent intent = new Intent(mainpage.this, normal_alarmalert.class);
-                    PendingIntent pi = PendingIntent.getActivity(mainpage.this, requestcode.get(position), intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    PendingIntent pi = PendingIntent.getActivity(mainpage.this, requestcode.get(position), intent, PendingIntent.FLAG_CANCEL_CURRENT);
                     alarmManager.cancel(pi);
                     db.delete(requestcode.get(position));
                     removeData(itemlist.get(position));
@@ -465,7 +465,7 @@ public class mainpage extends Activity implements RecyclerTouchListener.Recycler
 
                                     AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
                                     Intent intent = new Intent(mainpage.this, normal_alarmalert.class);
-                                    PendingIntent pi = PendingIntent.getActivity(mainpage.this, requestcode, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                                    PendingIntent pi = PendingIntent.getActivity(mainpage.this, requestcode, intent, PendingIntent.FLAG_CANCEL_CURRENT);
                                     alarmManager.cancel(pi);
                                     Log.d("cancel","!");
                                     db.close();
@@ -477,9 +477,8 @@ public class mainpage extends Activity implements RecyclerTouchListener.Recycler
                                     db.updatestate(requestcode, state);
                                     Cursor cursor = db.selectbycode(requestcode);
                                     if (cursor != null && cursor.moveToFirst()) {
-                                        Intent intent1 = new Intent(mainpage.this, normal_alarmalert.class);
-                                        intent1.putExtra("requestcode", requestcode);
                                         Intent service = new Intent(mainpage.this, BootService.class);
+                                        service.putExtra("req",requestcode);
                                         startService(service);
                                     }
                                     db.close();

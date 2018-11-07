@@ -79,8 +79,8 @@ public class normal_alarmalert extends AppCompatActivity {
             dialog.cancel();
         }
         Intent service = new Intent(this, BootService.class);
+        service.putExtra("req",requestcode);
         startService(service);
-
     }
 
     public void send(){

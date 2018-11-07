@@ -52,6 +52,7 @@ public class normal_alarm extends Activity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.normal_alarm);
+        Button creat_btn = findViewById(R.id.creat_btn);
         TextView normal_edit_title = findViewById(R.id.normal_edit_title);
         
         Intent intentcode = getIntent();
@@ -73,6 +74,7 @@ public class normal_alarm extends Activity {
                 audioFilePath = cursor.getString(1);
                 rday = cursor.getString(0);
                 pickday();
+                creat_btn.setText("UPDATE");
             }
         }
         alarmpicker();
@@ -134,7 +136,6 @@ public class normal_alarm extends Activity {
             }
         });
 
-        Button creat_btn = findViewById(R.id.creat_btn);
         creat_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -263,6 +264,7 @@ public class normal_alarm extends Activity {
         db.insert(repeat_text, audioFilePath, index, requestcode, ifrepeat, edit_text, millis,"normal",1);
         db.close();
         Intent service = new Intent(this, BootService.class);
+        service.putExtra("req",requestcode);
         startService(service);
         Intent mIntent = new Intent(this, mainpage.class);
         mIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -288,6 +290,7 @@ public class normal_alarm extends Activity {
         db.updateall(requestcode, repeat_text, audioFilePath, index, ifrepeat, edit_text, millis,"normal",1);
         db.close();
         Intent service = new Intent(this, BootService.class);
+        service.putExtra("req",requestcode);
         startService(service);
         Intent mIntent = new Intent(this, mainpage.class);
         mIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
